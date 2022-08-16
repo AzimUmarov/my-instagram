@@ -9,8 +9,8 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {alpha, Divider, InputBase, ListItemIcon, styled} from "@mui/material";
-import {Logout, PersonAdd, Settings} from "@mui/icons-material";
+import {alpha, Divider, InputBase, ListItemIcon, styled, useTheme} from "@mui/material";
+import {Logout, Settings} from "@mui/icons-material";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
@@ -25,6 +25,10 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import SearchIcon from '@mui/icons-material/Search';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import {useContext} from "react";
+import MyThemeContext from "../../context/ColorModeContext";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -69,11 +73,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [currentNav, setCurrentNav] = React.useState("home");
+    const {setMode, mode, theme} = useContext(MyThemeContext);
 
-    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
@@ -160,6 +164,11 @@ const Navbar = () => {
                                 Settings
                             </MenuItem>
                             <Divider />
+                            <IconButton sx={{ ml: 1 }}  color="inherit" onClick={() => {setMode(mode === "dark" ? "light" : "dark")
+                                console.log(mode)}}>
+                                {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                            </IconButton>
+                            {" " + theme.palette.mode[0].toUpperCase() + theme.palette.mode.slice(1)} mode
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <ListItemIcon>
                                     <Logout fontSize="small" />
