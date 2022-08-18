@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {alpha, Divider, InputBase, ListItemIcon, styled} from "@mui/material";
+import {alpha, Divider, InputBase, ListItemIcon, styled, useTheme} from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -84,17 +84,17 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="lg">
+        <AppBar position="sticky">
+            <Container fixed>
                 <Toolbar disableGutters>
-                    <InstagramIcon sx={{ mr: 1 }} />
+                    <InstagramIcon sx={{ mr: {md: 1, sm: 1, xl: 1, lg: 1, xs: 1} }} />
                     <Typography
                         variant="h6"
                         noWrap
                         component="a"
                         href="/"
                         sx={{
-                            mr: {md: 33, xs: -1.5, sm: 44},
+                            mr: {md: -3,xs: -1.5, sm: 20, xl: 33, lg: 33},
                             fontFamily: 'Apple Color Emoji',
                             fontWeight: 700,
                             letterSpacing: '.1rem',
@@ -104,16 +104,14 @@ const Navbar = () => {
                     >
                          Instagram
                     </Typography>
-                    <Search sx={{display: {md: "flex", xs: "none"}, mr: {md: 25}}}>
+                    <Search sx={{display: {md: "flex", xs: "none"},  mr: {md: 15, lg: 15}, ml: {md: 15, lg: 0}}}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
                         <StyledInputBase
                             placeholder="Search"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
+                            inputProps={{ 'aria-label': 'search' }} />
                     </Search>
-
                     { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => setCurrentNav("home")}/> }
                     { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("chat")} /> }
                     { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => setCurrentNav("upload")} /> }
@@ -144,7 +142,7 @@ const Navbar = () => {
                         >
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <ListItemIcon>
-                                <AccountCircleOutlinedIcon />
+                                    <AccountCircleOutlinedIcon />
                                 </ListItemIcon>
                                 Profile
                             </MenuItem>

@@ -4,10 +4,12 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.separateMessageFromStack =
+  exports.indentAllLines =
   exports.getTopFrame =
   exports.getStackTraceLines =
   exports.formatStackTrace =
   exports.formatResultsErrors =
+  exports.formatPath =
   exports.formatExecError =
     void 0;
 
@@ -75,54 +77,10 @@ function _interopRequireWildcard(obj, nodeInterop) {
   return newObj;
 }
 
-var global = (function () {
-  if (typeof globalThis !== 'undefined') {
-    return globalThis;
-  } else if (typeof global !== 'undefined') {
-    return global;
-  } else if (typeof self !== 'undefined') {
-    return self;
-  } else if (typeof window !== 'undefined') {
-    return window;
-  } else {
-    return Function('return this')();
-  }
-})();
-
-var Symbol = global['jest-symbol-do-not-touch'] || global.Symbol;
-
-var global = (function () {
-  if (typeof globalThis !== 'undefined') {
-    return globalThis;
-  } else if (typeof global !== 'undefined') {
-    return global;
-  } else if (typeof self !== 'undefined') {
-    return self;
-  } else if (typeof window !== 'undefined') {
-    return window;
-  } else {
-    return Function('return this')();
-  }
-})();
-
-var Symbol = global['jest-symbol-do-not-touch'] || global.Symbol;
-
-var global = (function () {
-  if (typeof globalThis !== 'undefined') {
-    return globalThis;
-  } else if (typeof global !== 'undefined') {
-    return global;
-  } else if (typeof self !== 'undefined') {
-    return self;
-  } else if (typeof window !== 'undefined') {
-    return window;
-  } else {
-    return Function('return this')();
-  }
-})();
-
+var Symbol = globalThis['jest-symbol-do-not-touch'] || globalThis.Symbol;
+var Symbol = globalThis['jest-symbol-do-not-touch'] || globalThis.Symbol;
 var jestReadFile =
-  global[Symbol.for('jest-native-read-file')] || fs.readFileSync;
+  globalThis[Symbol.for('jest-native-read-file')] || fs.readFileSync;
 // stack utils tries to create pretty stack by making paths relative.
 const stackUtils = new _stackUtils.default({
   cwd: 'something which does not exist'
@@ -140,7 +98,7 @@ const PATH_NODE_MODULES = `${path.sep}node_modules${path.sep}`;
 const PATH_JEST_PACKAGES = `${path.sep}jest${path.sep}packages${path.sep}`; // filter for noisy stack trace lines
 
 const JASMINE_IGNORE =
-  /^\s+at(?:(?:.jasmine\-)|\s+jasmine\.buildExpectationResult)/;
+  /^\s+at(?:(?:.jasmine-)|\s+jasmine\.buildExpectationResult)/;
 const JEST_INTERNALS_IGNORE =
   /^\s+at.*?jest(-.*?)?(\/|\\)(build|node_modules|packages)(\/|\\)/;
 const ANONYMOUS_FN_IGNORE = /^\s+at <anonymous>.*$/;
@@ -155,12 +113,14 @@ const ANCESTRY_SEPARATOR = ' \u203A ';
 const TITLE_BULLET = _chalk.default.bold('\u25cf ');
 
 const STACK_TRACE_COLOR = _chalk.default.dim;
-const STACK_PATH_REGEXP = /\s*at.*\(?(\:\d*\:\d*|native)\)?/;
+const STACK_PATH_REGEXP = /\s*at.*\(?(:\d*:\d*|native)\)?/;
 const EXEC_ERROR_MESSAGE = 'Test suite failed to run';
 const NOT_EMPTY_LINE_REGEXP = /^(?!$)/gm;
 
-const indentAllLines = (lines, indent) =>
-  lines.replace(NOT_EMPTY_LINE_REGEXP, indent);
+const indentAllLines = lines =>
+  lines.replace(NOT_EMPTY_LINE_REGEXP, MESSAGE_INDENT);
+
+exports.indentAllLines = indentAllLines;
 
 const trim = string => (string || '').trim(); // Some errors contain not only line numbers in stack traces
 // e.g. SyntaxErrors can contain snippets of code, and we don't
@@ -183,7 +143,7 @@ const getRenderedCallsite = (fileContent, line, column) => {
       highlightCode: true
     }
   );
-  renderedCallsite = indentAllLines(renderedCallsite, MESSAGE_INDENT);
+  renderedCallsite = indentAllLines(renderedCallsite);
   renderedCallsite = `\n${renderedCallsite}\n`;
   return renderedCallsite;
 };
@@ -247,10 +207,10 @@ const formatExecError = (error, config, options, testPath, reuseMessage) => {
   }
 
   message = checkForCommonEnvironmentErrors(message);
-  message = indentAllLines(message, MESSAGE_INDENT);
+  message = indentAllLines(message);
   stack =
     stack && !options.noStackTrace
-      ? '\n' + formatStackTrace(stack, config, options, testPath)
+      ? `\n${formatStackTrace(stack, config, options, testPath)}`
       : '';
 
   if (
@@ -271,7 +231,7 @@ const formatExecError = (error, config, options, testPath, reuseMessage) => {
     messageToUse = `${EXEC_ERROR_MESSAGE}\n\n${message}`;
   }
 
-  return TITLE_INDENT + TITLE_BULLET + messageToUse + stack + '\n';
+  return `${TITLE_INDENT + TITLE_BULLET + messageToUse + stack}\n`;
 };
 
 exports.formatExecError = formatExecError;
@@ -323,7 +283,7 @@ const removeInternalStackEntries = (lines, options) => {
   });
 };
 
-const formatPaths = (config, relativeTestPath, line) => {
+const formatPath = (line, config, relativeTestPath = null) => {
   // Extract the file path from the trace line.
   const match = line.match(/(^\s*at .*?\(?)([^()]+)(:[0-9]+:[0-9]+\)?.*$)/);
 
@@ -344,6 +304,8 @@ const formatPaths = (config, relativeTestPath, line) => {
 
   return STACK_TRACE_COLOR(match[1]) + filePath + STACK_TRACE_COLOR(match[3]);
 };
+
+exports.formatPath = formatPath;
 
 const getStackTraceLines = (
   stack,
@@ -411,7 +373,7 @@ const formatStackTrace = (stack, config, options, testPath) => {
     .filter(Boolean)
     .map(
       line =>
-        STACK_INDENT + formatPaths(config, relativeTestPath, trimPaths(line))
+        STACK_INDENT + formatPath(trimPaths(line), config, relativeTestPath)
     )
     .join('\n');
   return renderedCallsite
@@ -441,19 +403,18 @@ const formatResultsErrors = (testResults, config, options, testPath) => {
       let {message, stack} = separateMessageFromStack(content);
       stack = options.noStackTrace
         ? ''
-        : STACK_TRACE_COLOR(
+        : `${STACK_TRACE_COLOR(
             formatStackTrace(stack, config, options, testPath)
-          ) + '\n';
-      message = indentAllLines(message, MESSAGE_INDENT);
-      const title =
-        _chalk.default.bold.red(
-          TITLE_INDENT +
-            TITLE_BULLET +
-            result.ancestorTitles.join(ANCESTRY_SEPARATOR) +
-            (result.ancestorTitles.length ? ANCESTRY_SEPARATOR : '') +
-            result.title
-        ) + '\n';
-      return title + '\n' + message + '\n' + stack;
+          )}\n`;
+      message = indentAllLines(message);
+      const title = `${_chalk.default.bold.red(
+        TITLE_INDENT +
+          TITLE_BULLET +
+          result.ancestorTitles.join(ANCESTRY_SEPARATOR) +
+          (result.ancestorTitles.length ? ANCESTRY_SEPARATOR : '') +
+          result.title
+      )}\n`;
+      return `${title}\n${message}\n${stack}`;
     })
     .join('\n');
 };
