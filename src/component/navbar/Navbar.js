@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {alpha, Divider, InputBase, ListItemIcon, styled, useTheme} from "@mui/material";
+import {alpha, Divider, InputBase, ListItemIcon, styled} from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -94,7 +94,7 @@ const Navbar = () => {
                         component="a"
                         href="/"
                         sx={{
-                            mr: {md: 33, xs: 7, sm: 44},
+                            mr: {md: 33, xs: -1.5, sm: 44},
                             fontFamily: 'Apple Color Emoji',
                             fontWeight: 700,
                             letterSpacing: '.1rem',
@@ -114,15 +114,15 @@ const Navbar = () => {
                         />
                     </Search>
 
-                    { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} onClick={(e) => setCurrentNav("home")}/> }
-                    { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} onClick={(e) => setCurrentNav("chat")} /> }
-                    { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} onClick={(e) => setCurrentNav("upload")} /> }
-                    { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} onClick={(e) => setCurrentNav("explore")} /> }
-                    { currentNav === "like" ? <FavoriteIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}} onClick={(e) => setCurrentNav("like")} /> }
+                    { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => setCurrentNav("home")}/> }
+                    { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("chat")} /> }
+                    { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => setCurrentNav("upload")} /> }
+                    { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("explore")} /> }
+                    { currentNav === "like" ? <FavoriteIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("like")} /> }
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0, m:{md: 1, xs: 0}, fontSize: {md: 30, xs: 25}}}>
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0, m:{md: 1, xs: 0},ml: {xs: 0.6}, fontSize: {md: 30, xs: 25}}}>
                                 <Avatar sx={{width: {md: 35, xs: 30}, height: {md: 35, xs: 30}}} alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
                         </Tooltip>

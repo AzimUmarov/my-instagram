@@ -1,4 +1,4 @@
-import {createContext, useEffect, useState} from 'react';
+import {createContext, useState} from 'react';
 import {createTheme, useMediaQuery} from "@mui/material";
 import * as React from "react";
 
