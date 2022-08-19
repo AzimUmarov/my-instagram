@@ -10,9 +10,17 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
+import {Divider, InputAdornment, InputBase, TextField} from "@mui/material";
+import {AccountCircle} from "@mui/icons-material";
+import Box from "@mui/material/Box";
+
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -53,58 +61,48 @@ export default function Post({post, where}) {
                 image={post.img}
                 alt="Paella dish"
             />
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    This impressive paella is a perfect party dish and a fun meal to cook
-                    together with your guests. Add 1 cup of frozen peas along with the mussels,
-                    if you like.
-                </Typography>
-            </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
+                    {false ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
+                </IconButton>
+                <IconButton aria-label="add to favorites">
+                    <ModeCommentOutlinedIcon />
                 </IconButton>
                 <IconButton aria-label="share">
                     <ShareIcon />
                 </IconButton>
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
-                >
-                    <ExpandMoreIcon />
+                <ExpandMore aria-label="share">
+                    {false ? <BookmarkOutlinedIcon /> :  <BookmarkBorderOutlinedIcon />}
                 </ExpandMore>
             </CardActions>
-            <Collapse in={expanded} timeout="auto" unmountOnExit>
-                <CardContent>
-                    <Typography paragraph>Method:</Typography>
-                    <Typography paragraph>
-                        Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                        aside for 10 minutes.
+            <CardContent>
+                <Typography sx={{mt: "-5%", mb: "1%", fontWeight: "bold"}} component="div" >12 likes</Typography>
+                <Typography variant="body1" >
+                    This impressive paella is a perfect party dish and a fun meal to cook
+                    together with your guests. Add 1 cup of frozen peas along with the mussels,
+                    if you like.
+                </Typography>
+                <Typography component="div" sx={{mt: 1}}>
+                    <span className="author" style={{fontWeight: "bold"}}> user </span>
+                    <span className="body" style={{}}>this is a comment</span>
+                    {false ? <FavoriteIcon sx={{float: "right", fontSize: 15, mt: 0.5}}/> : <FavoriteBorderOutlinedIcon sx={{float: "right", fontSize: 15, mt: 0.5}} />}
+                </Typography>
+                <Typography component="div" variant="body2" color="#A9A9A9" sx={{textTransform: "UpperCase", fontSize: 11, letterSpacing: 1, mt: 1}}>
+                    17 hours ago &nbsp; <span style={{color: "white", cursor: "pointer", textTransform: "none", fontSize: 12, letterSpacing: 0.3, fontWeight: "bold"}}>See translation</span>
+                </Typography>
+                <Divider width="140%" sx={{ml: -10, mt: 2}}/>
+                <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 1.5, mb : -1.3}}>
+                    <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                    <InputBase
+                        sx={{ ml: 1, flex: 1 }}
+                        placeholder="Add a comment..."
+                        inputProps={{ 'aria-label': 'search google maps' }}
+                    />
+                    <Typography component="span" sx={{color: "#483D8B", mr: 1, my: 0.5, cursor: "pointer" }}>
+                        Post
                     </Typography>
-                    <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-                        medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-                        occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-                        large plate and set aside, leaving chicken and chorizo in the pan. Add
-                        pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-                        stirring often until thickened and fragrant, about 10 minutes. Add
-                        saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-                    </Typography>
-                    <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with artichokes and
-                        peppers, and cook without stirring, until most of the liquid is absorbed,
-                        15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-                        mussels, tucking them down into the rice, and cook again without
-                        stirring, until mussels have opened and rice is just tender, 5 to 7
-                        minutes more. (Discard any mussels that don&apos;t open.)
-                    </Typography>
-                    <Typography>
-                        Set aside off of the heat to let rest for 10 minutes, and then serve.
-                    </Typography>
-                </CardContent>
-            </Collapse>
+                </Box>
+            </CardContent>
         </Card>
     );
 }

@@ -31,6 +31,17 @@ export const posts = [
             "⚡️Har bir insonning o‘zi biladigan yoki bilmaydigan iqtidori bo‘ladi. Bugun Sizlarga yosh bo‘lishiga qaramasdan, o‘z salohiyati va iqtidoridan to‘g‘ri foydalangan dasturchilar haqida ma’lumotlarni taqdim etamiz!",
         date: Date.now(),
         likes: 12
+    },
+    {
+        img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-W9iJJ3w24EQ%2FXoWMjoLm1hI%2FAAAAAAAAZuw%2F6btoKXCZTWc2GWU_hTlBeHTRwsJdHU8fACLcBGAsYHQ%2Fs1600%2FBeautiful%252BLuxury%252BMansion%252Bin%252BCalifornia%252Bnew%252B1.jpg&f=1&nofb=1",
+        creator_name: "ajir Islom",
+        creator_username: "ajirislom",
+        creator_img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F1.bp.blogspot.com%2F-W9iJJ3w24EQ%2FXoWMjoLm1hI%2FAAAAAAAAZuw%2F6btoKXCZTWc2GWU_hTlBeHTRwsJdHU8fACLcBGAsYHQ%2Fs1600%2FBeautiful%252BLuxury%252BMansion%252Bin%252BCalifornia%252Bnew%252B1.jpg&f=1&nofb=1",
+        description: "Dunyodagi eng yosh dasturchilar haqida bilarmidingiz?\n" +
+            "\n" +
+            "⚡️Har bir insonning o‘zi biladigan yoki bilmaydigan iqtidori bo‘ladi. Bugun Sizlarga yosh bo‘lishiga qaramasdan, o‘z salohiyati va iqtidoridan to‘g‘ri foydalangan dasturchilar haqida ma’lumotlarni taqdim etamiz!",
+        date: Date.now(),
+        likes: 12
     }
     ];
 
@@ -44,6 +55,23 @@ export const comments =[
         date: Date.now()
     }
 ];
+
+export const users = [
+    {
+        name: "Jhon doe",
+        username: "jhondoe",
+        img: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pixelstalk.net%2Fwp-content%2Fuploads%2F2016%2F06%2FFree-Muscle-Car-Image-Download.jpg&f=1&nofb=1",
+        followers: 12,
+        following: 12
+    },
+    {
+        name: "Alexander var",
+        username: "Alexander",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.Rl58WdXDpkcyYlhZwmxqYwHaEK%26pid%3DApi&f=1",
+        followers: 12,
+        following: 12
+    }
+    ];
 
 
 
