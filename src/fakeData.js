@@ -58,9 +58,9 @@ export const comments =[
 
 export const users = [
     {
-        name: "Jhon doe",
-        username: "jhondoe",
-        img: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.pixelstalk.net%2Fwp-content%2Fuploads%2F2016%2F06%2FFree-Muscle-Car-Image-Download.jpg&f=1&nofb=1",
+        name: "Azimjon Umarov",
+        username: "theazimjon",
+        img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.mm.bing.net%2Fth%3Fid%3DOIP.Rl58WdXDpkcyYlhZwmxqYwHaEK%26pid%3DApi&f=1",
         followers: 12,
         following: 12
     },

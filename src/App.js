@@ -1,19 +1,18 @@
 import * as React from 'react';
 import './App.css';
-import Navbar from "./component/navbar/Navbar";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import MyThemeContext from "./context/ColorModeContext";
 import {useContext} from "react";
-import Home from "./pages/home/Home";
+import PublicRouter from "./component/router/PublicRouter";
+import PrivateRouter from "./component/router/PrivateRouter";
 
 function App() {
     const {theme} = useContext(MyThemeContext);
     return (
       <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar />
-
-          <Home/>
+          {/*<PublicRouter />*/}
+          <PrivateRouter />
       </ThemeProvider>
   );
 }

@@ -5,22 +5,21 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
-import {Divider, InputAdornment, InputBase, TextField} from "@mui/material";
-import {AccountCircle} from "@mui/icons-material";
+import {Divider, InputBase} from "@mui/material";
 import Box from "@mui/material/Box";
-
+import Picker from 'emoji-picker-react';
+import {useState} from "react";
+import MoodIcon from '@mui/icons-material/Mood';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -34,14 +33,16 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Post({post, where}) {
-    const [expanded, setExpanded] = React.useState(false);
-    console.log(post)
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const [inputComment, setInputComment] = useState('');
+    const [showPicker, setShowPicker] = useState(false);
+
+    const onEmojiClick = (event, emojiObject) => {
+        setInputComment(prevInput => prevInput + emojiObject.emoji);
+        setShowPicker(false);
     };
 
     return (
-        <Card sx={{width: {md: 460, xs: "100%", sm: 460, xl: 460, lg: 460}, mt: 1.5,mb: 1.5, borderRadius: 2}} >
+        <Card sx={{width: {md: 460, xs: "100%", sm: 460, xl: 460, lg: 460}, mt: 1.5,mb: 1.5, borderRadius: 2}} variant="outlined" >
             <CardHeader
                 avatar={
                     <Avatar alt="Remy Sharp" src={post.creator_img} aria-label="recipe">
@@ -92,12 +93,19 @@ export default function Post({post, where}) {
                 </Typography>
                 <Divider width="140%" sx={{ml: -10, mt: 2}}/>
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', mt: 1.5, mb : -1.3}}>
-                    <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+                    <MoodIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} onClick={() => setShowPicker(val => !val)} />
+                    {showPicker && <Picker
+                        disableSearchBar
+                        native
+                        pickerStyle={{backgroundColor: "#FAEBD7" , position: "absolute", zIndex: "12", marginBottom: 36, marginLeft: -24 }}
+                        onEmojiClick={onEmojiClick} />}
                     <InputBase
                         sx={{ ml: 1, flex: 1 }}
+                        value={inputComment}
+                        onChange={(e) => setInputComment(e.target.value)}
                         placeholder="Add a comment..."
-                        inputProps={{ 'aria-label': 'search google maps' }}
                     />
+
                     <Typography component="span" sx={{color: "#483D8B", mr: 1, my: 0.5, cursor: "pointer" }}>
                         Post
                     </Typography>

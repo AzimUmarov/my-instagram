@@ -29,6 +29,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useContext} from "react";
 import MyThemeContext from "../../context/ColorModeContext";
+import {useNavigate} from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -59,7 +60,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -74,7 +74,6 @@ const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [currentNav, setCurrentNav] = React.useState("home");
     const {setMode, mode, theme} = useContext(MyThemeContext);
-
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -82,6 +81,7 @@ const Navbar = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    const navigate = useNavigate();
 
     return (
         <AppBar position="sticky">
@@ -112,11 +112,11 @@ const Navbar = () => {
                             placeholder="Search"
                             inputProps={{ 'aria-label': 'search' }} />
                     </Search>
-                    { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => setCurrentNav("home")}/> }
-                    { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("chat")} /> }
-                    { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => setCurrentNav("upload")} /> }
-                    { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("explore")} /> }
-                    { currentNav === "like" ? <FavoriteIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => setCurrentNav("like")} /> }
+                    { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => {setCurrentNav("home"); navigate(`/`); }}/> }
+                    { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("chat"); navigate(`/page/chat`); }} /> }
+                    { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => { setCurrentNav("upload"); navigate(`/page/upload`); }} /> }
+                    { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("explore"); navigate(`/page/explore`); }} /> }
+                    { currentNav === "like" ? <FavoriteIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => {setCurrentNav("like"); navigate(`/page/like`); }} /> }
 
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
@@ -140,19 +140,19 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/theazimjon`); setCurrentNav("s")}}>
                                 <ListItemIcon>
                                     <AccountCircleOutlinedIcon />
                                 </ListItemIcon>
                                 Profile
                             </MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/page/saved`); setCurrentNav("s")}}>
                                 <ListItemIcon>
                                     <BookmarkIcon fontSize="small" />
                                 </ListItemIcon>
                                 Saved
                             </MenuItem>
-                            <MenuItem onClick={handleCloseUserMenu} sx={{
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/page/settings`); setCurrentNav("s")}} sx={{
                                 width: 222,
                                 textAlign: "left"
                             }}>
