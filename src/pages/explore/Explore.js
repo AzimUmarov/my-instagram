@@ -3,6 +3,7 @@ import {posts} from "../../fakeData"
 import PostSuperficial from "../../component/post/PostSuperficial";
 import {Container as Container2, Grid} from "@mui/material"
 import Box from "@mui/material/Box";
+import Footer from "../../component/footer/Footer";
 
 
 function Explore() {
@@ -15,6 +16,7 @@ function Explore() {
                 )}
                 </Grid>
             </Box>
+            &emsp; <Footer />
         </Container2>
     );
 }
