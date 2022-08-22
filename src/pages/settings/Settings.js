@@ -16,9 +16,11 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import FormHelperText from '@mui/material/FormHelperText';
 import TextField from '@mui/material/TextField';
 import Footer from "../../component/footer/Footer";
+import {useNavigate} from "react-router-dom";
 
 
-function Settings(props) {
+function Settings({whatFor}) {
+    const navigate = useNavigate();
     const settings = (
         <div>
             <List>
@@ -34,7 +36,7 @@ function Settings(props) {
                 "Help"
                 ].map((text, index) => (
                     <ListItem key={text} disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => {text === "Change password" ? navigate(`/page/settings/password`) : navigate(`/page/settings`)}}>
                             <ListItemIcon>
                             </ListItemIcon>
                             <ListItemText primary={text} />
@@ -67,52 +69,54 @@ function Settings(props) {
                             <TextField
                                 sx={{m: 3, width: "200%"}}
                                 id="outlined-name"
-                                label="Name"
+                                label={whatFor === "changePassword" ? "Current Password" : "Name"}
                                 value={name}
                                 onChange={handleChange}
                             /><
                             TextField
                                 sx={{m: 3, width: "200%"}}
                                 id="outlined-name"
-                                label="Username"
+                                label={whatFor === "changePassword" ? "New Password" : "Username"}
                                 value={name}
                                 onChange={handleChange}
                             />
                             <TextField
                                 sx={{m: 3, width: "200%"}}
                                 id="outlined-name"
-                                label="Website"
+                                label={whatFor === "changePassword" ? "Verify new password" : "Website"}
                                 value={name}
                                 onChange={handleChange}
                             />
-                            <TextField
-                                sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
-                                label="Bio"
-                                value={name}
-                                onChange={handleChange}
-                            />
-                            <TextField
-                                sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
-                                label="Email"
-                                value={name}
-                                onChange={handleChange}
-                            />
-                            <TextField
-                                sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
-                                label="Phone number"
-                                value={name}
-                                onChange={handleChange}
-                            />
-                            <TextField
-                                sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
-                                label="Gender"
-                                value={name}
-                                onChange={handleChange}
-                            />
+                            {whatFor !== "changePassword" ? <>
+                                    <TextField
+                                        sx={{m: 3, width: "200%"}}
+                                        id="outlined-name"
+                                        label="Bio"
+                                        value={name}
+                                        onChange={handleChange}
+                                    />
+                                    <TextField
+                                        sx={{m: 3, width: "200%"}}
+                                        id="outlined-name"
+                                        label="Email"
+                                        value={name}
+                                        onChange={handleChange}
+                                    />
+                                    <TextField
+                                        sx={{m: 3, width: "200%"}}
+                                        id="outlined-name"
+                                        label="Phone number"
+                                        value={name}
+                                        onChange={handleChange}
+                                    />
+                                    <TextField
+                                        sx={{m: 3, width: "200%"}}
+                                        id="outlined-name"
+                                        label="Gender"
+                                        value={name}
+                                        onChange={handleChange}
+                                    />
+                                </> : null}
                             <Button
                             type="submit"
                             sx={{ml: "90%"}}

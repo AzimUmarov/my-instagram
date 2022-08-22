@@ -23,6 +23,7 @@ function PrivateRouter(props) {
                 <Route path="/page/upload" element ={<Upload />}/>
                 <Route path="/page/chat" element ={<Chat />}/>
                 <Route path="/page/settings" element ={<Settings />}/>
+                <Route path="/page/settings/password" element ={<Settings whatFor="changePassword"/>}/>
                 <Route path="/page/like" element ={<Like />}/>
             </Routes>
         </BrowserRouter>
