@@ -31,8 +31,7 @@ const userSchema = new Schema({
         required: true
     },
     avatar:{
-        type: String,
-        required: true
+        type: String
     },
     accauntType: {type: String, default: 'public'},
     bithDate: {
@@ -48,7 +47,7 @@ const userSchema = new Schema({
     website: {type: String},
     followers: [{type: Types.ObjectId, ref: 'User'}],
     following: [{type: Types.ObjectId, ref: 'User'}],
-    profileViewers: [{type: Types.ObjectId, ref: 'User'}],
+    views: [{type: Types.ObjectId, ref: 'User'}],
     favorite: [{type: Types.ObjectId, ref: 'User'}],
     blocked: [{type: Types.ObjectId, ref: 'User'}],
     chats: [{type: Types.ObjectId, ref: 'Chat'}],

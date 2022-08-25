@@ -8,5 +8,4 @@ route.putch("/edit/:id", Chat.edit);
 route.delete("/:id", Chat.delete);
 route.delete("/leavechat:id", Chat.leaveChat);
 
-
 module.exports = route;
