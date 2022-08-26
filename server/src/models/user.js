@@ -4,18 +4,21 @@ const userSchema = new Schema({
     firstName: {
         type: String,
         maxlength: 22,
+        minlength: 4,
         required: true,
         trim: true
     },
     lastName: {
         type: String,
         maxlength: 22,
+        minlength: 2,
         required: true,
         trim: true
     },
     username: {
         type: String,
         maxlength: 22,
+        minlength: 2,
         required: true,
         trim: true,
         unique: true
@@ -33,8 +36,8 @@ const userSchema = new Schema({
     avatar:{
         type: String
     },
-    accauntType: {type: String, default: 'public'},
-    bithDate: {
+    accountType: {type: String, default: 'public'},
+    birthDate: {
         type: Date
     },
     gender: {type: String, default: 'male'},

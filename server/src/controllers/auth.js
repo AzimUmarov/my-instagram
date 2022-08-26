@@ -1,20 +1,101 @@
+require("dotenv").config();
 const User = require('../models/user.js');
+const TokenBlockList = require('../models/tokenBlockList'); // redis? :(
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt")
 
-class Auth {
-     async register(req, res){
-        try {
-            const { firstName, lastName, avatar, username, email, password, gender, bithDate, bio} = req.body;
-            let newUser = { firstName, lastName, avatar, username, email, password, gender, bithDate, bio};
+class AuthController {
 
-            const checkUserName = await Users.findOne({username: newUserName});
-            const checkUserName = await Users.findOne({username: newUserName});
+     async signup(req, res){
+        try {
+            const { firstName, lastName, avatar, username, email, password, gender, birthDate, bio} = req.body;
+
+            const hashPassword = await bcrypt.hash(password, 10);
+
+            let newUser = new User({ firstName, lastName, avatar, username, email, password: hashPassword, gender, birthDate, bio});
+            console.log(newUser)
+            await newUser.save();
+
+            const token = await jwt.sign(newUser.toJSON(), process.env.ACCESS_TOKEN);
+
+            res.status(200).json({message: "new user saved successfully", data: {user: newUser, token}});
+
         } catch (err) {
-           
+            res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
         }
-      }
-      
+     }
+     async signIn(req, res){
+         try {
+            const {username, password} = req.body;
+
+            const user = await User.findOne({username});
+             console.log(user);
+            if(!user){
+                res.status(400).json({message: "user is found"});
+            }
+             const token = await jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN);
+             console.log(3);
+             bcrypt.compare(password,user.password)
+                 .then (r => {
+                    if(r){
+                        res.status(200).json({message: "logged", data: {user, token}})
+                    }
+                    else{
+                        res.status(400).json({message: "invalid password"});
+                    }
+                 })
+         }
+         catch (err) {
+             console.log(err)
+             res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
+         }
+     }
+     async checkUsername(req, res) {
+         try {
+            const {username} = req.body;
+            const user = await User.findOne({username: username});
+
+             if(user) {
+                 res.status(400).json({message: "username already taken"})
+             }
+             else{
+                 res.status(200).json({message: "username available"});
+             }
+         }
+         catch (err) {
+             res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
+         }
+     }
+
+     async signOut(req, res){
+         try {
+             const token = req.params.token;
+             const newTokenBlockList = new TokenBlockList({token});
+             await newTokenBlockList.save();
+             res.status(200).json({message: "logged out successfully"});
+         }
+         catch (err) {
+             res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
+         }
+     }
+
+     async updatePassword(req, res){
+         try {
+            const id = req.params.id;
+            const user = await User.findOne({_id: id});
+            if(!user) {
+                res.status(400).json({message: "user is found"});
+            }
+
+            const {password} = req.body;
+            user.password = await bcrypt.hash(password, 10);
+            user.save();
+            res.status(200).json({message: "user password has been updated successfully", data: {user}});
+         }
+         catch (err) {
+             res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
+         }
+     }
 }
 
-module.exports = new UserController()
+module.exports = new AuthController();

@@ -6,7 +6,6 @@ const cors = require("cors");
 const compression = require("compression");
 const {connect} = require("mongoose");
 const app = express();
-const auth = require("./src/routes/auth");
 
 app.use(express.json());
 app.use(morgan('dev'));
@@ -18,13 +17,17 @@ app.get("/", (req, res) => {
     res.send("Working backend app!\n Created by Azimjon Umarov \n Powered by Qwasar.io");
 });
 
-app.use("/api", require("./src/routes/auth"));
-app.use("/api", require("./src/routes/user"));
-app.use("/api", require("./src/routes/post"));
-app.use("/api", require("./src/routes/comment"));
-app.use("/api", require("./src/routes/chat"));
-app.use("/api", require("./src/routes/message"));
+app.use(function(req, res, next) {
+    res.setHeader('Content-Type', 'application/json');
+    next();
+});
 
+app.use("/api/auth", require("./src/routes/auth"));
+app.use("/api/user", require("./src/routes/user"));
+app.use("/api/post", require("./src/routes/post"));
+app.use("/api/comment", require("./src/routes/comment"));
+app.use("/api/userChat", require("./src/routes/chat"));
+app.use("/api/message", require("./src/routes/message"));
 
 connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

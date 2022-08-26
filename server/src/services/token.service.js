@@ -1,8 +1,8 @@
-generateAccessToken(user) {
+function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s' })
 }
   
-generateRefreshToken(user) {
+function generateRefreshToken(user) {
   return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '15s' })
 }
 

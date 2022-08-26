@@ -1,4 +1,4 @@
-const { Schema, Types } = require("mongoose");
+const { Schema, Types, model } = require("mongoose");
 
 const hashtagSchema = new Schema({
     name:{type: String},
@@ -9,4 +9,4 @@ const hashtagSchema = new Schema({
     timestamps: true
 });
 
-module.exports = module("Message", hashtagSchema);
+module.exports = model("Hashtag", hashtagSchema);
