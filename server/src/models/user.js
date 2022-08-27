@@ -33,13 +33,9 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    avatar:{
-        type: String
-    },
+    avatar:{type: String},
     accountType: {type: String, default: 'public'},
-    birthDate: {
-        type: Date
-    },
+    birthDate: {type: Date},
     gender: {type: String, default: 'male'},
     mobile: {type: String},
     address: {type: String},

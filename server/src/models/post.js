@@ -1,10 +1,8 @@
 const { Schema, model, Types } = require("mongoose");
 
 const postSchema = new Schema({
-    media: {
-        type: {type: String},
-        medias: [{type: String}]
-    },
+    media: {type: {type: String}, value: {type: String}},
+    medias: [{key: {type: String}, value: {type: String}}],
     description: {
         type: String,
         maxlength: 1000,
@@ -16,6 +14,7 @@ const postSchema = new Schema({
     sharings:  [{type: Types.ObjectId, ref: 'User'}],
     likes: [{type: Types.ObjectId, ref: 'User'}],
     views: [{type: Types.ObjectId, ref: 'User'}],
+    saves: [{type: Types.ObjectId, ref: 'User'}],
     comments: [{type: Types.ObjectId, ref: 'Comment'}],
     mentions: [{type: Types.ObjectId, ref: 'User'}],
     hashtags: [{type: Types.ObjectId, ref: 'Hashtag'}]

@@ -1,9 +1,7 @@
 const { Schema, Types, model } = require("mongoose");
 
 const tokenBlockListSchema = new Schema({
-        token: {
-            type: String
-        }},
+        token: {type: String}},
     {
         timestamps: true
     });

@@ -3,10 +3,12 @@ const User = require('../models/user.js');
 const TokenBlockList = require('../models/tokenBlockList'); // redis? :(
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt")
+const {ObjectId} = require("mongodb");
 
 class AuthController {
 
      async signup(req, res){
+         console.log("--------------------------------Signing up...");
         try {
             const { firstName, lastName, avatar, username, email, password, gender, birthDate, bio} = req.body;
 
@@ -29,16 +31,15 @@ class AuthController {
             const {username, password} = req.body;
 
             const user = await User.findOne({username});
-             console.log(user);
-            if(!user){
-                res.status(400).json({message: "user is found"});
+            if (!user) {
+                throw new Error("User not found");
             }
-             const token = await jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN);
-             console.log(3);
+            const token = await jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN);
+
              bcrypt.compare(password,user.password)
                  .then (r => {
                     if(r){
-                        res.status(200).json({message: "logged", data: {user, token}})
+                        res.status(200).json({message: "logged", data: {user, token}});
                     }
                     else{
                         res.status(400).json({message: "invalid password"});
@@ -69,7 +70,9 @@ class AuthController {
 
      async signOut(req, res){
          try {
-             const token = req.params.token;
+             const authHeader = req.headers['authorization'];
+             const token = authHeader && authHeader.split(' ')[1];
+
              const newTokenBlockList = new TokenBlockList({token});
              await newTokenBlockList.save();
              res.status(200).json({message: "logged out successfully"});
@@ -81,19 +84,15 @@ class AuthController {
 
      async updatePassword(req, res){
          try {
-            const id = req.params.id;
-            const user = await User.findOne({_id: id});
-            if(!user) {
-                res.status(400).json({message: "user is found"});
-            }
-
+            const id = req.user._id;
+            const user = await User.findOne({_id: ObjectId(id)});
             const {password} = req.body;
             user.password = await bcrypt.hash(password, 10);
-            user.save();
+            await user.save();
             res.status(200).json({message: "user password has been updated successfully", data: {user}});
          }
          catch (err) {
-             res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
+             res.status(500).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
          }
      }
 }

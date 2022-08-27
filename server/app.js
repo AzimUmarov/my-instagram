@@ -26,7 +26,7 @@ app.use("/api/auth", require("./src/routes/auth"));
 app.use("/api/user", require("./src/routes/user"));
 app.use("/api/post", require("./src/routes/post"));
 app.use("/api/comment", require("./src/routes/comment"));
-app.use("/api/userChat", require("./src/routes/chat"));
+app.use("/api/chat", require("./src/routes/chat"));
 app.use("/api/message", require("./src/routes/message"));
 
 connect(process.env.MONGO_URL, {
@@ -39,6 +39,3 @@ connect(process.env.MONGO_URL, {
         console.log(`   *** Listening on port ${process.env.PORT} ***\n     --- Mongodb connected ----`);
     });
 });
-
-
-
