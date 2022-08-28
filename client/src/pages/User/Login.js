@@ -18,7 +18,7 @@ const LOGIN_URL = "/auth/signin";
 export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setUser} = useContext(UserContext);
+    const { setUser, setToken} = useContext(UserContext);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -31,8 +31,8 @@ export default function Login() {
             const response = await ServiceAPI.post(LOGIN_URL, JSON.stringify({username, password}));
             const token = response?.data?.data?.token;
             setLoading(false);
-            ServiceAPI.defaults.headers.common['Authorization'] = `Barer ${token}`;
             setUser(response?.data?.data?.user);
+            setToken(token);
         } catch (err) {
             setLoading(false);
             if (!err?.response)

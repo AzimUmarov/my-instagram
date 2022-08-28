@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {alpha, Divider, InputBase, ListItemIcon, styled, useTheme} from "@mui/material";
+import {alpha, Divider, InputBase, ListItemIcon, Modal, styled, useTheme} from "@mui/material";
 import {Logout, Settings} from "@mui/icons-material";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
@@ -30,6 +30,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useContext} from "react";
 import MyThemeContext from "../../context/ColorModeContext";
 import {useNavigate} from "react-router-dom";
+import UploadFile from "../modals/UploadFile/UploadFile";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -86,6 +87,9 @@ const Navbar = () => {
     return (
         <AppBar position="sticky">
             <Container fixed>
+                {currentNav === "upload" ?
+                    <UploadFile currentNav={currentNav} setCurrentNav={setCurrentNav} />
+                    : null}
                 <Toolbar disableGutters>
                     <InstagramIcon sx={{ mr: {md: 1, sm: 1, xl: 1, lg: 1, xs: 1} }} />
                     <Typography
@@ -114,7 +118,7 @@ const Navbar = () => {
                     </Search>
                     { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => {setCurrentNav("home"); navigate(`/`); }}/> }
                     { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("chat"); navigate(`/page/chat`); }} /> }
-                    { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => { setCurrentNav("upload"); navigate(`/page/upload`); }} /> }
+                    { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => { setCurrentNav("upload");}} /> }
                     { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("explore"); navigate(`/page/explore`); }} /> }
                     { currentNav === "like" ? <FavoriteIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => {setCurrentNav("like"); navigate(`/page/like`); }} /> }
 

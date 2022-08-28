@@ -1,11 +1,9 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
-import Home from "../../pages/home/Home";
 import ShowPost from "../post/ShowPost";
 import ShowUser from "../user/ShowUser";
 import Navbar from "../navbar/Navbar";
 import Explore from "../../pages/explore/Explore";
-import SignIn from "../../pages/signIn/SignIn";
 import Login from "../../pages/User/Login";
 import SignUp from "../../pages/User/SignUp";
 

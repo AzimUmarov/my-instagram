@@ -6,7 +6,6 @@ import UserContext from "./context/GlobalData/User";
 import {useContext} from "react";
 import PublicRouter from "./component/router/PublicRouter";
 import PrivateRouter from "./component/router/PrivateRouter";
-import SignIn from "./pages/signIn/SignIn";
 
 function App() {
     const {theme} = useContext(MyThemeContext);
