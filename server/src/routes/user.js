@@ -4,6 +4,7 @@ const User = require("../controllers/user");
 const authentication = require("../middlewares/Authentification");
 
 route.get("/get-one/:id", User.getOne);
+route.get("/get-one-by-id/:id", User.getOneByUsername);
 route.get("/get-all", authentication, User.getAll);
 route.patch("/update", authentication, User.edit);
 route.delete("/delete", authentication, User.delete);

@@ -31,6 +31,24 @@ class UserController {
             res.status(500).json({message: `${err.message} , please try again later`});
         }
     }
+    async getOneByUsername(req, res) {
+        try {
+            const id = req.params.id;
+            if (!id) {
+                return res.status(400).json({ message: 'please provide a valid id' });
+            }
+
+            const user = await User.find({username: id});
+            if (!user) {
+                return res.status(404).json({ message: 'user not found' });
+            }
+
+            return res.status(200).json(user);
+        } catch (err) {
+            res.status(500).json({message: `${err.message} , please try again later`});
+        }
+    }
+
     async edit (req, res) {
         try {
             const id = req.user._id;

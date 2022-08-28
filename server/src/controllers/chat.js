@@ -39,14 +39,16 @@ class chatController {
             const id = req.params.id;
             const chat = await Chat.findById(id);
             let users = [];
-            chat.participants.map(async item => {
-                const members = await User.findById(item);
-                console.log(members._id);
-                // -------------------------------- here is where
-                // users = [..., members];
-            })
 
-            return res.status(200).json({data: users});
+             chat.participants.map(async (item, index) => {
+                const member = await User.findById(item);
+
+                    users.push(member)
+                    console.log(users);
+                    if(index === chat.participants.length - 1) {
+                        return res.status(200).json({data: users});
+                    }
+            })
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`})
         }

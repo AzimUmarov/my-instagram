@@ -8,6 +8,7 @@ const {connect} = require("mongoose");
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded());
 app.use(morgan('dev'));
 app.use(helmet());
 app.use(cors());
@@ -28,6 +29,7 @@ app.use("/api/post", require("./src/routes/post"));
 app.use("/api/comment", require("./src/routes/comment"));
 app.use("/api/chat", require("./src/routes/chat"));
 app.use("/api/message", require("./src/routes/message"));
+app.use("/api/hashtag", require("./src/routes/hashtag"));
 
 connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

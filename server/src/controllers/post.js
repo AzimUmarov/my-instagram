@@ -22,7 +22,10 @@ class PostController {
     }
     async getUserPosts(req, res) {
         try {
-            const id = req.user._id;
+            let id = req.params.id;
+            if(id == 0){
+                id = req.user._id;
+            }
             if (!id) {
                 return res.status(400).json({ message: 'please provide a valid id' });
             }
@@ -59,7 +62,11 @@ class PostController {
     }
     async getUserSaved(req, res) {
         try {
-            const id = req.user._id;
+            let id = req.params.id;
+            if(id == 0){
+                id = req.user._id;
+            }
+
             const posts = await Post.find({ "saves": ObjectId(id)});
             return res.status(200).json(posts);
         } catch (err) {

@@ -4,10 +4,10 @@ const Hashtag = require("../controllers/hashtag");
 const authentication = require("../middlewares/Authentification");
 
 route.get("/get-one/:id", authentication, Hashtag.getOne);
-route.get("/create/:id", authentication, Hashtag.create);
+route.post("/create", authentication, Hashtag.create);
 route.patch("/edit/:id", authentication, Hashtag.edit);
 route.delete("/:id", authentication, Hashtag.delete);
-route.delete("/addPost/:id/:postId", authentication, Hashtag.addPost);
-route.delete("/addUser/:id/:userId", authentication, Hashtag.adduser);
+route.patch("/add-post/:id/:post", authentication, Hashtag.addPost);
+route.patch("/add-user/:id/:userId", authentication, Hashtag.adduser);
 
 module.exports = route;

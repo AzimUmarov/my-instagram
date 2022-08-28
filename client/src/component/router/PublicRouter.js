@@ -5,16 +5,19 @@ import ShowPost from "../post/ShowPost";
 import ShowUser from "../user/ShowUser";
 import Navbar from "../navbar/Navbar";
 import Explore from "../../pages/explore/Explore";
+import SignIn from "../../pages/signIn/SignIn";
+import Login from "../../pages/User/Login";
+import SignUp from "../../pages/User/SignUp";
 
 function PublicRouter(props){
     return (
         <BrowserRouter>
-            <Navbar/>
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/:id" element={<ShowUser />} />
-                <Route path="/p/:id" element ={<ShowPost />}/>
-                <Route path="/page/explore" element ={<Explore />}/>
+                <Route path="/" element={<Login />} />
+                <Route path="/register" element={<SignUp />} />
+                <Route path="/:id" element={<> <Navbar/> <ShowUser /> </>} />
+                <Route path="/p/:id" element ={<> <Navbar/> <ShowPost /> </>}/>
+                <Route path="/page/explore" element ={<> <Navbar/> <Explore /> </>}/>
             </Routes>
         </BrowserRouter>
     );

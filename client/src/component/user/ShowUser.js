@@ -12,10 +12,7 @@ import GridOnIcon from '@mui/icons-material/GridOn';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 //, display: {xs: "none", md: "block", sm: "block", xl: "block", lg: "block"}
-const avatarStyles = {
-    web: {width: 150, height: 150, ml: 8, mt: 4, mr: 16},
-    mobile:{width: 80, height: 80, ml: 2, mt: 2, mr: 2}
-}
+
 
 
 function ShowUser(props) {

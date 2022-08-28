@@ -1,4 +1,4 @@
-const Hashtag = require("../models/comment")
+const Hashtag = require("../models/hashtag")
 const Post = require("../models/post");
 const {ObjectId} = require("mongodb");
 
@@ -11,7 +11,7 @@ class HashtagController {
             }
             const hashtag = await Hashtag.findById(id);
             if (!hashtag) {
-                return res.status(404).json({ message: 'comment not found' });
+                return res.status(404).json({ message: 'hashtag not found' });
             }
             return res.status(200).json(hashtag);
         } catch (err) {
@@ -60,16 +60,17 @@ class HashtagController {
 
             const hashtag = await Hashtag.findById(id);
 
-            let res = "";
-            if (hashtag.posts.includes(ObjectId(postId))) {
-                res = "successfully added";
-                hashtag.posts = hashtag.posts.filter(item => item.toString() === postId);
-            } else {
-                res = "successfully removed";
+            let msg = "";
+            if(!hashtag.posts.includes(ObjectId(postId))) {
+                msg = "successfully added";
                 hashtag.posts.push(ObjectId(postId));
             }
+            else {
+                msg = "successfully removed"
+                hashtag.posts = hashtag.posts.filter(item => item.toString() !== postId);
+            }
             await hashtag.save();
-            return res.status(200).json({message: res});
+            return res.status(200).json({message: msg});
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`})
         }
@@ -77,20 +78,21 @@ class HashtagController {
     async adduser(req, res) {
         try {
             const id = req.params.id;
-            const userId = req.params.post;
+            const userId = req.params.userId;
 
             const hashtag = await Hashtag.findById(id);
 
-            let res = "";
-            if (hashtag.users.includes(ObjectId(userId))) {
-                res = "successfully added";
-                hashtag.users = hashtag.posts.filter(item => item.toString() === userId);
-            } else {
-                res = "successfully removed"
+            let msg = "";
+            if(!hashtag.users.includes(ObjectId(userId))) {
+                msg = "successfully added";
                 hashtag.users.push(ObjectId(userId));
             }
+            else {
+                msg = "successfully removed"
+                hashtag.users = hashtag.users.filter(item => item.toString() !== userId);
+            }
             await hashtag.save();
-            return res.status(200).json({message: res});
+            return res.status(200).json({message: msg});
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`})
         }

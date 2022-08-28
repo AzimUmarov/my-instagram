@@ -3,8 +3,18 @@ const Comment = require("../models/comment");
 const {ObjectId} = require("mongodb");
 
 class MessageController {
-    getChatMessages(req, res) {
+    async getChatMessages(req, res) {
+        try {
+            const id = req.params.id;
+            if (!id) {
+                return res.status(400).json({ message: 'please provide a valid id' });
+            }
+            const messages = await Message.find({chat: ObjectId(id) });
 
+            return res.status(200).json({data: messages});
+        } catch (err) {
+            res.status(500).json({message: `${err.message} , please try again later`})
+        }
     }
     async getOne(req, res) {
         try {
@@ -14,7 +24,7 @@ class MessageController {
             }
             const message = await Message.findById(id);
             if (!message) {
-                return res.status(404).json({ message: 'comment not found' });
+                return res.status(404).json({ message: 'message not found' });
             }
             return res.status(200).json(message);
         } catch (err) {
@@ -23,7 +33,8 @@ class MessageController {
     }
     async create(req, res) {
         try {
-            const {body, chat} = req.body;
+            const {body} = req.body;
+            const chat = req.params.id;
             const creator = req.user._id;
             let newMessage = await new Message({body, creator, chat: ObjectId(chat)});
             await newMessage.save();
@@ -37,7 +48,7 @@ class MessageController {
         try {
             const id = req.params.id;
             const {body} = req.body;
-            const updateMessage = await Comment.findByIdAndUpdate(id,{body},{
+            const updateMessage = await Message.findByIdAndUpdate(id,{body},{
                 new: true,
                 omitUndefined: true
             } );
@@ -67,17 +78,17 @@ class MessageController {
             const id = req.params.id;
             const userId = req.user._id;
             const message = await Message.findById(id);
-            let res = "";
-            if(message.likes.includes(ObjectId(userId))) {
-                res = "successfully liked";
-                message.likes = message.likes.filter(item => item.toString() === userId);
-            }
-            else {
-                res = "successfully unliked"
+            let msg = "";
+            if(!message.likes.includes(ObjectId(userId))) {
+                msg = "successfully liked";
                 message.likes.push(ObjectId(userId));
             }
+            else {
+                msg = "successfully unliked"
+                message.likes = message.likes.filter(item => item.toString() !== userId);
+            }
             await message.save();
-            return res.status(200).json({ message: res });
+            return res.status(200).json({ message: msg });
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`})
         }
