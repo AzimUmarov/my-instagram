@@ -212,7 +212,7 @@ class UserController {
     }
     async followers(req, res) {
         try {
-            const id = req.user._id;
+            const id = req.params.id;
             const users = await User.find({ "following": ObjectId(id)});
             return res.status(200).json({data:  users});
         }
@@ -222,7 +222,7 @@ class UserController {
     }
     async following(req, res) {
         try {
-            const id = req.user._id;
+            const id = req.params.id;
             const users = await User.find({ "followers": ObjectId(id)});
             return res.status(200).json({data:  users});
         }
@@ -230,7 +230,6 @@ class UserController {
             res.status(500).json({message: `${err.message} , please try again later`});
         }
     }
-    async
 }
 
 module.exports = new UserController()

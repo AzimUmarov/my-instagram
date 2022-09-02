@@ -29,6 +29,7 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import {useContext} from "react";
 import MyThemeContext from "../../context/ColorModeContext";
+import UserContext from "../../context/GlobalData/User"
 import {useNavigate} from "react-router-dom";
 import UploadFile from "../modals/UploadFile/UploadFile";
 
@@ -75,6 +76,9 @@ const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [currentNav, setCurrentNav] = React.useState("home");
     const {setMode, mode, theme} = useContext(MyThemeContext);
+    const {setUser, token, setToken} = useContext(UserContext);
+
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -171,7 +175,7 @@ const Navbar = () => {
                                 {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                             </IconButton>
                             {" " + theme.palette.mode[0].toUpperCase() + theme.palette.mode.slice(1)} mode
-                            <MenuItem onClick={handleCloseUserMenu}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); setUser(null); setToken(null) }}>
                                 <ListItemIcon>
                                     <Logout fontSize="small" />
                                 </ListItemIcon>
