@@ -78,7 +78,6 @@ const Navbar = () => {
     const {setMode, mode, theme} = useContext(MyThemeContext);
     const {setUser, token, setToken} = useContext(UserContext);
 
-
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
