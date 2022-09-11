@@ -35,7 +35,8 @@ const ExpandMore = styled((props) => {
 export default function Post({post, where}) {
     const [inputComment, setInputComment] = useState('');
     const [showPicker, setShowPicker] = useState(false);
-
+    console.log("--------------------------------post");
+    console.log(post)
     const onEmojiClick = (event, emojiObject) => {
         setInputComment(prevInput => prevInput + emojiObject.emoji);
         setShowPicker(false);
@@ -45,7 +46,7 @@ export default function Post({post, where}) {
         <Card sx={{width: {md: 460, xs: "100%", sm: 460, xl: 460, lg: 460}, mt: 1.5,mb: 1.5, borderRadius: 2}} variant="outlined" >
             <CardHeader
                 avatar={
-                    <Avatar alt="Remy Sharp" src={post.creator_img} aria-label="recipe">
+                    <Avatar alt="Remy Sharp" src={null} aria-label="recipe">
                     </Avatar>
                 }
                 action={
@@ -59,7 +60,7 @@ export default function Post({post, where}) {
             <CardMedia
                 component="img"
                 height="60%"
-                image={post.img}
+                image={post?.media?.value}
                 alt="Paella dish"
             />
             <CardActions disableSpacing>

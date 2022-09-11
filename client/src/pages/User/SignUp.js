@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import FilterHdrIcon from '@mui/icons-material/FilterHdr';
 import ServiceAPI from "../../API/ServiceAPI";
 import UserContext from "../../context/GlobalData/User";
 import {useContext, useState} from "react";

@@ -32,6 +32,8 @@ import MyThemeContext from "../../context/ColorModeContext";
 import UserContext from "../../context/GlobalData/User"
 import {useNavigate} from "react-router-dom";
 import UploadFile from "../modals/UploadFile/UploadFile";
+import Button from "@mui/material/Button";
+import {margin} from "@mui/system";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -73,6 +75,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 const Navbar = () => {
+    const {user} = useContext(UserContext)
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [currentNav, setCurrentNav] = React.useState("home");
     const {setMode, mode, theme} = useContext(MyThemeContext);
@@ -119,6 +122,7 @@ const Navbar = () => {
                             placeholder="Search"
                             inputProps={{ 'aria-label': 'search' }} />
                     </Search>
+                    { user ? <>
                     { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => {setCurrentNav("home"); navigate(`/`); }}/> }
                     { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("chat"); navigate(`/page/chat`); }} /> }
                     { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => { setCurrentNav("upload");}} /> }
@@ -182,6 +186,14 @@ const Navbar = () => {
                             </MenuItem>
                         </Menu>
                     </Box>
+                    </> : <>
+                        <Button variant="outlined"  color="inherit" sx={{m:{md: 1, xs: 0}, ml: {xs: 3.4}, height: 35, mr: {xs: 0.5}}} onClick={(e) => navigate(`/`)} > SignIn </Button>
+                        <Button variant="contained" sx={{m:{md: 1, xs: 0}, ml: {xs: 3.4},height: 35, mr: {xs: 0.5} }} onClick={(e) => navigate(`/register`)} > SignUp </Button>
+                        <IconButton sx={{ ml: 1 }}  color="inherit" onClick={() => {setMode(mode === "dark" ? "light" : "dark")
+                            console.log(mode)}}>
+                            {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+                        </IconButton>
+                    </>}
                 </Toolbar>
             </Container>
         </AppBar>

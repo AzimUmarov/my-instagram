@@ -7,9 +7,15 @@ import Typography from "@mui/material/Typography";
 import PostSuperficial from "../../component/post/PostSuperficial";
 import BasicCard from "../../component/post/Test";
 import Explore from "../explore/Explore";
+import useFetchPostsForUser from "../../hooks/GetPostsForUser";
 
 function Home(props) {
-    console.log(posts)
+    const { error, posts, loading} = useFetchPostsForUser();
+
+    console.error("------------------------------------------------")
+    console.log(posts);
+    console.log(error);
+
     return (
         <div>
             <Container maxWidth="sm" > {/*{xl: 1, lg:2, md: 3, sm: 4, xs: 5}*/}
@@ -17,7 +23,7 @@ function Home(props) {
                     <HomeUsers posts={posts} />
                 </Typography>
                 <Typography sx={{ml: {md: "-27%", xs: 0, sm: "5%", xl: "-50%", lg: "-50%"}, mt: {xl: -82, lg: -82, md: -82}}}>
-                    {posts.map(item =>
+                    {posts?.map(item =>
                         <Post post={item} where="home" />
                     )}
                 </Typography>

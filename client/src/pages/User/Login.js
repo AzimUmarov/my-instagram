@@ -31,8 +31,8 @@ export default function Login() {
             const response = await ServiceAPI.post(LOGIN_URL, JSON.stringify({username, password}));
             const token = response?.data?.data?.token;
             setLoading(false);
-            setUser(response?.data?.data?.user);
             setToken(token);
+            setUser(response?.data?.data?.user);
         } catch (err) {
             setLoading(false);
             if (!err?.response)
