@@ -21,25 +21,31 @@ class PostController {
         }
     }
     async getUserPosts(req, res) {
+        console.log("ok");
         try {
             let id = req.params.id;
-            if(id == 0){
+            if(id === 0){
                 id = req.user._id;
             }
             if (!id) {
                 return res.status(400).json({ message: 'please provide a valid id' });
             }
-
-            const post = await Post.find({ "creator": ObjectId(id)});
-            if (!post) {
+            const user = await User.find({ "username": id});
+            console.log(user)
+            const posts = await Post.find({ "creator": ObjectId(user[0]?._id)});
+            console.log(posts)
+            if (!posts) {
                 return res.status(200).json({ message: 'user not have any post yet' });
             }
-            return res.status(200).json(post);
+            return res.status(200).json(posts);
         } catch (err) {
+            console.log(err)
             res.status(500).json({message: `${err.message} , please try again later`})
         }
     }
     async getForUser(req, res) {
+        console.log("body")
+        console.log(req.body)
         console.log("---------getting posts for user: ");
         try {
             const id = req.user._id;
@@ -63,11 +69,19 @@ class PostController {
     async getUserSaved(req, res) {
         try {
             let id = req.params.id;
-            if(id == 0){
+            if(id === 0){
                 id = req.user._id;
             }
-
-            const posts = await Post.find({ "saves": ObjectId(id)});
+            if (!id) {
+                return res.status(400).json({ message: 'please provide a valid id' });
+            }
+            const user = await User.find({ "username": id});
+            console.log(user)
+            const posts = await Post.find({ "saves": ObjectId(user[0]?._id)});
+            console.log(posts)
+            if (!posts) {
+                return res.status(200).json({ message: 'user not have any post yet' });
+            }
             return res.status(200).json(posts);
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`})

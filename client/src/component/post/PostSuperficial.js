@@ -23,7 +23,7 @@ function PostSuperficial({size = 1, post}) {
             <CardActionArea>
             <CardCover sx={{width: 300, height: 300,}}>
                 <img
-                    src="https://images.unsplash.com/photo-1502657877623-f66bf489d236?auto=format&fit=crop&w=800"
+                    src={post.media.value}
                     alt="Image not found"
                 />
             </CardCover>

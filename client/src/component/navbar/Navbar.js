@@ -75,11 +75,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 const Navbar = () => {
-    const {user} = useContext(UserContext)
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [currentNav, setCurrentNav] = React.useState("home");
+    const [currentNav, setCurrentNav] = React.useState(window.location.href === "/" ? "home" : null);
     const {setMode, mode, theme} = useContext(MyThemeContext);
-    const {setUser, token, setToken} = useContext(UserContext);
+    const { user, setUser, token, setToken} = useContext(UserContext);
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -151,7 +150,7 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/theazimjon`); setCurrentNav("s")}}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}`); setCurrentNav("s")}}>
                                 <ListItemIcon>
                                     <AccountCircleOutlinedIcon />
                                 </ListItemIcon>

@@ -14,6 +14,8 @@ function PublicRouter(props){
                 <Route path="/" element={<Login />} />
                 <Route path="/register" element={<SignUp />} />
                 <Route path="/:id" element={<> <Navbar/> <ShowUser /> </>} />
+                <Route path="/:id/saved" element={<> <Navbar/> <ShowUser type={"saved"} /> </>} />
+                <Route path="/:id/hashtag" element={<> <Navbar/> <ShowUser type={"hashtag"} /> </>} />
                 <Route path="/p/:id" element ={<> <Navbar/> <ShowPost /> </>}/>
                 <Route path="/page/explore" element ={<> <Navbar/> <Explore /> </>}/>
             </Routes>

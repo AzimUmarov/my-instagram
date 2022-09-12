@@ -1,5 +1,5 @@
-import React from 'react';
-import {useParams} from "react-router-dom";
+import React, {useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
 import {users} from "../../fakeData";
 import {styles} from "./UserCardStyleObjects";
 import Avatar from "@mui/material/Avatar";
@@ -15,9 +15,10 @@ import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 
 
 
-function ShowUser(props) {
+function ShowUser({type}) {
     const {id} = useParams();
     const user = users[0];
+    const navigate = useNavigate();
     return (
         <Container>
             <Typography  sx={{display: "flex"}}>
@@ -47,11 +48,11 @@ function ShowUser(props) {
             <Divider sx={{ mt: {xs: 2, sm: 2, xl: 6,md: 6, lg: 6}, display: "flex"}}>
             </Divider>
             <div style={{margin: 12}}>
-                <Typography component="span" sx={{ml: {xs: 2, sm: "30%", xl: 42,md: 42, lg: 42}, fontWeight: "bold", cursor: "pointer"}} > <GridOnIcon /> Posts</Typography>
-                <Typography component="span" sx={{ml: 6, fontWeight: "", cursor: "pointer"}} > <BookmarkBorderIcon /> Saved</Typography>
-                <Typography component="span" sx={{ml: 6, fontWeight: "", cursor: "pointer"}} > <PermContactCalendarIcon /> Tagged</Typography>
+                <Typography component="span" sx={{ml: {xs: 2, sm: "30%", xl: 42,md: 42, lg: 42}, fontWeight: type ? "" : "bold", cursor: "pointer"}} onClick={(e) => type ? window.location.href = `/${id}` : null}> <GridOnIcon /> Posts</Typography>
+                <Typography component="span" sx={{ml: 6, fontWeight: type === "saved" ? "bold" : "", cursor: "pointer"}} onClick={(e) => type !== "saved" ? window.location.href = `/${id}/saved` : null}> <BookmarkBorderIcon /> Saved</Typography>
+                <Typography component="span" sx={{ml: 6, fontWeight: type === "hashtag" ? "bold" : "", cursor: "pointer"}} onClick={(e) => type !== "hashtag" ? window.location.href = `/${id}/hashtag` : null} > <PermContactCalendarIcon /> Tagged</Typography>
             </div>
-            <Explore/>
+            <Explore user={id} type={type}/>
         </Container>
     );
 }

@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import FilterHdrIcon from '@mui/icons-material/FilterHdr';
-import {Link as LinkRoute} from "react-router-dom";
+import {Link as LinkRoute, useNavigate} from "react-router-dom";
 import ServiceAPI from "../../API/ServiceAPI";
 import {useContext, useState} from "react";
 import UserContext from "../../context/GlobalData/User";
@@ -19,6 +19,7 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const { setUser, setToken} = useContext(UserContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -33,6 +34,7 @@ export default function Login() {
             setLoading(false);
             setToken(token);
             setUser(response?.data?.data?.user);
+            navigate("/");
         } catch (err) {
             setLoading(false);
             if (!err?.response)
@@ -52,7 +54,6 @@ export default function Login() {
                     alignItems: 'center',
                 }}
             >
-
                 <InstagramIcon sx={{ display: { xs: 'block', md: 'flex' }, mr: 1, mb: -1, fontSize: "100px" }}  />
                 <Typography
                     variant="h6"

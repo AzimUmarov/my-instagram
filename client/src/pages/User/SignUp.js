@@ -9,15 +9,17 @@ import Container from '@mui/material/Container';
 import ServiceAPI from "../../API/ServiceAPI";
 import UserContext from "../../context/GlobalData/User";
 import {useContext, useState} from "react";
-import {Link as LinkRoute} from "react-router-dom";
+import {Link as LinkRoute, useNavigate} from "react-router-dom";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import {CircularProgress} from "@mui/material";
 const SIGNUP_URL = "/auth/signup";
 
 export default function SignUp() {
-    const { setUser} = useContext(UserContext);
+    const { setUser, setToken } = useContext(UserContext);
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -32,8 +34,9 @@ export default function SignUp() {
             const response = await ServiceAPI.post(SIGNUP_URL, JSON.stringify({username, password, firstName, lastName, email}));
             const token = response?.data?.data?.token;
             setLoading(false);
-            ServiceAPI.defaults.headers.common['Authorization'] = `Barer ${token}`;
+            setToken(token);
             setUser(response?.data?.data?.user);
+            navigate("/");
         } catch (err) {
             setLoading(false);
             if (!err?.response)

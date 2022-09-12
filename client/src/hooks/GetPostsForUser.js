@@ -8,13 +8,14 @@ export default async function useFetchPostsForUser() {
     const [error,setError] = useState(null);
     const [loading,setLoading] = useState(false);
 
-    useEffect(() => {
+    await useEffect(() => {
         (
             async function(){
                 try{
                     setLoading(true);
-                    let response = await  ServiceAPI.get(GET_POSTS);
-                    setPosts(response?.data);
+                    let response = await ServiceAPI.get(GET_POSTS);
+                    console.log(response?.data)
+                    await setPosts(response?.data);
                 }catch(err){
                     setError(err);
                 }finally{
@@ -24,6 +25,7 @@ export default async function useFetchPostsForUser() {
         )()
     }, []);
 
+    console.log(posts)
     return { error, posts, loading}
 
 }

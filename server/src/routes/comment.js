@@ -5,6 +5,7 @@ const authentication = require("../middlewares/Authentification");
 
 route.get("/get-one/:id", authentication, Comment.getOne);
 route.get("/get-post-comments/:id", authentication, Comment.getPostComments);
+route.get("/get-user-comments/:id", authentication, Comment.getUserComments);
 route.post("/create/:id", authentication, Comment.create);
 route.patch("/edit/:id", authentication, Comment.edit);
 route.delete("/:id", authentication, Comment.delete);

@@ -17,6 +17,8 @@ function PrivateRouter(props) {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/:id" element={<ShowUser />} />
+                <Route path="/:id/saved" element={ <ShowUser type={"saved"} /> } />
+                <Route path="/:id/hashtag" element={<ShowUser type={"hashtag"} />} />
                 <Route path="/page/saved" element={<ShowUser where="saved"/>} />
                 <Route path="/p/:id" element ={<ShowPost />}/>
                 <Route path="/page/explore" element ={<Explore />}/>
