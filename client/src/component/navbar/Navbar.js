@@ -27,13 +27,13 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import MyThemeContext from "../../context/ColorModeContext";
 import UserContext from "../../context/GlobalData/User"
 import {useNavigate} from "react-router-dom";
 import UploadFile from "../modals/UploadFile/UploadFile";
 import Button from "@mui/material/Button";
-import {margin} from "@mui/system";
+import { BASE_URL } from "../post/Post"
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -76,7 +76,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [currentNav, setCurrentNav] = React.useState(window.location.href === "/" ? "home" : null);
+    const [currentNav, setCurrentNav] = React.useState(window.location.href === BASE_URL ? "home" : null);
     const {setMode, mode, theme} = useContext(MyThemeContext);
     const { user, setUser, token, setToken} = useContext(UserContext);
 
@@ -88,7 +88,6 @@ const Navbar = () => {
         setAnchorElUser(null);
     };
     const navigate = useNavigate();
-
     return (
         <AppBar position="sticky">
             <Container fixed>
@@ -122,7 +121,7 @@ const Navbar = () => {
                             inputProps={{ 'aria-label': 'search' }} />
                     </Search>
                     { user ? <>
-                    { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => {setCurrentNav("home"); navigate(`/`); }}/> }
+                    { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} onClick={() => navigate(`/`)} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => {setCurrentNav("home"); navigate(`/`); }}/> }
                     { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("chat"); navigate(`/page/chat`); }} /> }
                     { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => { setCurrentNav("upload");}} /> }
                     { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("explore"); navigate(`/page/explore`); }} /> }
@@ -156,7 +155,7 @@ const Navbar = () => {
                                 </ListItemIcon>
                                 Profile
                             </MenuItem>
-                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/page/saved`); setCurrentNav("s")}}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}/saved`);  setCurrentNav("s")}}>
                                 <ListItemIcon>
                                     <BookmarkIcon fontSize="small" />
                                 </ListItemIcon>

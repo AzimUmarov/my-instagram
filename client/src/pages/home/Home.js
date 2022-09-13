@@ -71,7 +71,7 @@ function Home(props) {
                             </CardContent>
                         </Card>
                     )) : null}
-                    <h4 className={error ? "text-warning bg-secondary p-2 mb-0 mt-2 w-100 text-center border" : "d-none"} aria-live="assertive">{error?.message}</h4>
+                    <h4 className={error ? "text-warning bg-secondary p-2 mb-0 mt-2 w-100 text-center border position-sticky" : "d-none"} aria-live="assertive">{error?.message}</h4>
                     {posts?.map(item =>
                         <Post post={item} where="home" />
                     )}

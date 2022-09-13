@@ -32,7 +32,8 @@ export default function Login() {
             const response = await ServiceAPI.post(LOGIN_URL, JSON.stringify({username, password}));
             const token = response?.data?.data?.token;
             setLoading(false);
-            setToken(token);
+            ServiceAPI.defaults.headers.common['Authorization'] = `Barer ${token}`;
+            await localStorage.setItem('token', JSON.stringify(token));
             setUser(response?.data?.data?.user);
             navigate("/");
         } catch (err) {

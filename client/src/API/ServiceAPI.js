@@ -4,7 +4,7 @@ import UserContext from "../context/GlobalData/User";
 
 export function getLocalData(name) {
     const data = localStorage.getItem(name);
-    return data ? JSON.parse(data) : {};
+    return data ? JSON.parse(data) : "";
 }
 const token = getLocalData("token");
 

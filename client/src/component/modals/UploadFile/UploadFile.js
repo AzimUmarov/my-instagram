@@ -101,17 +101,17 @@ function UploadFile({currentNav, setCurrentNav}) {
                         sx={style}
                     >
                             <>
-                                {newPost.media.type === "image" ? <Typography
+                                {newPost?.media?.type === "image" ? <Typography
                                         component="img"
                                         sx={{height: 400}}
-                                        src={newPost.media.value}
+                                        src={newPost?.media?.value}
                                     />
                                     : <video
                                         autoPlay
                                         style={{height: 400}}
                                     >
                                         <source
-                                            src={newPost.media.value}
+                                            src={newPost?.media?.value}
                                             type="video/mp4"
                                         />
                                     </video>

@@ -27,6 +27,8 @@ function Explore({user, type}) {
                     if(user){
                         if(type === "saved")
                             response = await  ServiceAPI.get(`/post/get-saved/${user}`);
+                        else if(type === "hashtag")
+                            response = {data: []}
                         else
                             response = await  ServiceAPI.get(`/post/get-user-posts/${user}`);
                     }

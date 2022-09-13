@@ -1,4 +1,5 @@
 const Comment = require("../models/comment")
+const User = require("../models/user")
 const {ObjectId} = require("mongodb");
 
 class CommentController {
@@ -21,10 +22,12 @@ class CommentController {
         try {
             const id = req.params.id;
             if (!id) {
-                return res.status(400).json({ message: 'please provide a valid id' });
+                return res.status(400).json({message: 'please provide a valid id'});
             }
-            const comments = await Comment.find({post: ObjectId(id) });
-
+            const comments = await Comment.find({post: ObjectId(id)});
+            for (let i = 0; i < comments.length; i++) {
+                comments[i]["creator"] = await User.findById(comments[i].creator)
+            }
             return res.status(200).json({data: comments});
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`})

@@ -24,11 +24,16 @@ import ServiceAPI from "../../API/ServiceAPI";
 import moment from "moment";
 import { useEffectX } from "use-effect-x";
 import UserContext from "../../context/GlobalData/User";
+import {useNavigate} from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 const GET_USER_WITH_ID = "/user/get-one/"
 const GET_USER_COMMENTS = "/comment/get-user-comments/"
 const POST_COMMENT_WITH_POST_ID = "/comment/create/"
 const POST_LIKE_WITH_ID = "/post/like/"
-
+const COMMENT_LIKE_WITH_ID = "/comment/like/"
+const POST_SAVE_WITH_ID = "/post/save/"
+export const BASE_URL = "http://localhost:3000/p/"
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -49,6 +54,7 @@ export default function Post({post, where}) {
     const [loading,setLoading] = useState(null);
     const [creator,setCreator] = useState(null);
     const {user} = useContext(UserContext)
+    const navigate = useNavigate();
 
     async function handleSubmit(e){
         e.preventDefault();
@@ -67,20 +73,46 @@ export default function Post({post, where}) {
         }
     }
 
-    async function handleLike(e){
+    async function handleLike(e, comment){
         e.preventDefault();
         try{
-            const index = post.likes.indexOf(user._id);
-            if (index === -1) {
-                post.likes.push(user._id)
-            }
+            setLoading("likes")
+            let index;
+            if(comment === "save")
+                index = post.saves.indexOf(user._id);
+            else if(comment)
+                index = comment.likes.indexOf(user._id);
             else
-                post.likes.splice(index, 1);
+                index = post.likes.indexOf(user._id);
 
-            setLoading("like-loading");
-            const response = await  ServiceAPI.patch(POST_LIKE_WITH_ID + post?._id);
+            if (index === -1) {
+                if(comment === "save")
+                    post.saves.push(user._id)
+                else if(comment)
+                    comment.likes.push(user._id);
+                else
+                    post.likes.push(user._id)
+            }
+            else {
+                if(comment === "save")
+                    post.saves.splice(index, 1);
+                else if(comment)
+                    comment.likes.splice(index, 1);
+                else
+                    post.likes.splice(index, 1);
+            }
+            if(comment && comment !== "save"){
+                comments.map(com => {
+                    if(comment._id === com._id)
+                        com = comment;
+                })
+                setComments([...comments])
+            }
+            const response = await  ServiceAPI.patch(comment ?
+                (comment === "save") ? POST_SAVE_WITH_ID + post?._id : COMMENT_LIKE_WITH_ID + comment._id
+                : POST_LIKE_WITH_ID + post?._id);
             console.log(response.data);
-            setLoading(false);
+            setLoading(false)
         }catch(err){
             setError(err);
         }finally{
@@ -91,7 +123,7 @@ export default function Post({post, where}) {
 
     useMemo(async () => {
                 try{
-                    setLoading(true);
+                        setLoading(true);
                     const response2 = await  ServiceAPI.get(GET_USER_WITH_ID + post?.creator);
                     const response = await  ServiceAPI.get(GET_USER_COMMENTS + post?._id);
                     setCreator(response2?.data);
@@ -114,48 +146,79 @@ export default function Post({post, where}) {
         <Card sx={{width: {md: 460, xs: "100%", sm: 460, xl: 460, lg: 460}, mt: 1.5,mb: 1.5, borderRadius: 2}} variant="outlined" >
             <CardHeader
                 avatar={
-                    <Avatar alt="Remy Sharp" src={creator?.avatar} aria-label="recipe">
-                    </Avatar>
+                    loading === true ?
+                        <Skeleton animation="wave" variant="circular" width={40} height={40} /> :
+                        <Avatar alt="Remy Sharp" src={creator?.avatar} aria-label="recipe">
+                        </Avatar>
                 }
                 action={
                     <IconButton aria-label="settings">
-                        <MoreHorizOutlinedIcon />
+                        <MoreVertIcon />
                     </IconButton>
                 }
-                title={creator?.firstName + " " + creator?.lastName}
-                subheader={creator?.username}
-            />
-            <CardMedia
+                title={
+                    loading === true ? (
+                        <Skeleton
+                            animation="wave"
+                            height={10}
+                            width="80%"
+                            style={{ marginBottom: 6 }}
+                        />): (creator?.username)}
+                subheader={
+                    loading === true ? (
+                            <Skeleton animation="wave" height={10} width="40%" />
+                        ):
+                        ( creator?.firstName + " " + creator?.lastName) }
+            />{loading === true ?
+                <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />
+                :
+                post?.media?.type === "image" ? <CardMedia
                 component="img"
                 height="60%"
                 image={post?.media?.value}
                 alt="Paella dish"
-            />
+            /> : <video
+                    autoPlay
+                    muted
+                    onScroll={(e) =>{ e.preventDefault(); e.target.pause()}}
+                controls
+                width="100%"
+                height="100%"
+            >
+                <source
+                    src={post?.media?.value}
+                    type="video/mp4"
+                />
+            </video> }
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                     {post.likes.includes(user._id) ? <FavoriteIcon onClick={handleLike}/> : <FavoriteBorderOutlinedIcon onClick={handleLike}/>}
                 </IconButton>
                 <IconButton aria-label="add to favorites">
-                    <ModeCommentOutlinedIcon />
+                    <ModeCommentOutlinedIcon onClick={() =>{navigate(`p/${post._id}`)}} />
                 </IconButton>
-                <IconButton aria-label="share">
+                <IconButton onClick={() => window.location.href = `mailto:name1@rapidtables.com?cc=name2@rapidtables.com&bcc=name3@rapidtables.com` +
+                    `&subject=Share%post%` +
+                    `&body=${post.description.split(' ').join("%")}%Link%For%Post%-%${BASE_URL}post._id}` } >
                     <ShareIcon />
                 </IconButton>
                 <ExpandMore aria-label="share">
-                    {false ? <BookmarkOutlinedIcon /> :  <BookmarkBorderOutlinedIcon />}
+                    <IconButton aria-label="share" onClick={(e) => handleLike(e, "save")} >
+                        {post?.saves?.includes(user._id) ? <BookmarkOutlinedIcon  /> :  <BookmarkBorderOutlinedIcon />}
+                    </IconButton>
                 </ExpandMore>
             </CardActions>
             <CardContent>
                 <Typography sx={{mt: "-5%", mb: "1%", fontWeight: "bold"}} component="div" >{post.likes.length} likes </Typography>
                 <Typography variant="body1" >
-                    {post.description}
+                    {post.description.slice(0, 120)} {post.description.length > 120 ? <span style={{ color:"#FFF8DC", cursor: "pointer" }} onClick={() => navigate(`p/${post._id}`) } >...more</span> : null}
                 </Typography>
-                {comments?.length && comments?.map((comment, index) =>
+                {comments?.map((comment, index) =>
                     index < 3 ?
                 <Typography component="div" sx={{mt: 1}}>
                     <span className="author" style={{fontWeight: "bold"}}> {user?.username} </span>
-                    <span className="body" style={{}}>{comment.body}</span>
-                    {false ? <FavoriteIcon sx={{float: "right", fontSize: 15, mt: 0.5}}/> : <FavoriteBorderOutlinedIcon sx={{float: "right", fontSize: 15, mt: 0.5}} />}
+                    <span className="body" style={{}}>{comment.body.slice(0, 42)}</span> { comment.body.length > 35 ? <span style={{ color:"#FFF8DC", cursor: "pointer" }} onClick={() =>{navigate(`p/${post._id}`)}} >...more</span> : null}
+                    {comment?.likes?.includes(user._id) ? <FavoriteIcon sx={{float: "right", cursor: "pointer", fontSize: 15, mt: 0.5}} onClick={(e) => handleLike(e, comment)}/> : <FavoriteBorderOutlinedIcon sx={{float: "right", fontSize: 15,cursor: "pointer", mt: 0.5}} onClick={(e) => handleLike(e, comment)}/>}
                 </Typography> : null
                 )}
                 <Typography component="div" variant="body2" color="#A9A9A9" sx={{textTransform: "UpperCase", fontSize: 11, letterSpacing: 1, mt: 1}}>
