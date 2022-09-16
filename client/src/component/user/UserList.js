@@ -28,6 +28,11 @@ export default function HomeUsers({posts}) {
         }
     }
 
+    function removeUsers(id){
+        setUsers(users.filter(user => user.id === id));
+        console.log("remove")
+    }
+
     useEffect(() => {
         getUsers()
     }, [])
@@ -42,7 +47,7 @@ export default function HomeUsers({posts}) {
                 </Typography>
                 {users?.map(user => <UserCard  user={user}/>)}
             </List>
-            <Footer whatFor="home"/>
+            <Footer whatFor="home" removeUsers={removeUsers}/>
         </Box>
     );
 }

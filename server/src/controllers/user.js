@@ -39,11 +39,11 @@ class UserController {
             }
 
             const user = await User.find({username: id});
-            if (!user) {
+            if (!user || user.length < 1) {
                 return res.status(404).json({ message: 'user not found' });
             }
 
-            return res.status(200).json(user);
+            return res.status(200).json(user[0]);
         } catch (err) {
             res.status(500).json({message: `${err.message} , please try again later`});
         }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {users} from "../../fakeData";
 import {styles} from "./UserCardStyleObjects";
@@ -11,13 +11,38 @@ import Explore from "../../pages/explore/Explore";
 import GridOnIcon from '@mui/icons-material/GridOn';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import ServiceAPI from "../../API/ServiceAPI";
+import UserContext from "../../context/GlobalData/User";
 //, display: {xs: "none", md: "block", sm: "block", xl: "block", lg: "block"}
-
+const  GET_USER_WITH_USERNAME = "/user/get-one-by-username/"
 
 
 function ShowUser({type}) {
     const {id} = useParams();
-    const user = users[0];
+    const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(null)
+    const { user } = useContext(UserContext);
+
+    async function getUser(){
+        if(id === user._id){
+            setCurrentUser(user)
+            return 0;
+        }
+        try{
+            setLoading(true);
+            const response = await  ServiceAPI.get(GET_USER_WITH_USERNAME+ id);
+            const response2 = await  ServiceAPI.get(`/post/get-user-posts/${id}`);
+            setCurrentUser(response?.data)
+            console.log(response?.data)
+            setLoading(response2?.data?.length);
+        }catch(err){
+        }finally{
+        }
+    }
+
+    useEffect(() => {
+        getUser();
+    }, [])
     const navigate = useNavigate();
     return (
         <Container>
@@ -29,21 +54,21 @@ function ShowUser({type}) {
                         mt: {md: 4, xs: 2, sm: 4, xl: 4, lg: 4},
                         mr: {md: 16, xs: 2, sm: 8, xl: 16, lg: 16}
                 }}
-                    src={user.img} aria-label="recipe">
+                    src={currentUser?.avatar} aria-label="recipe">
                 </Avatar>
                 <Typography component="div" sx={{display: "flex", mt: {md: 6, xs: 2, sm: 4, xl: 6, lg: 6}, width: "100%"}}>
                     <span style={{fontWeight: "bold", fontSize: "24px"}} >{id}</span>
-                    <Button variant="outlined" sx={{height: 24, m: 1, color: "inherit", mt: {xs: 6, sm: 1, xl: 1,md: 1, lg: 1}, ml: {xs: -16, sm: 1, xl: 1,md: 1, lg: 1}}} >Edit profile</Button>
-                    <SettingsIcon sx={{m: 1}} />
+                    <Button variant="outlined" sx={{height: 24, m: 1, color: "inherit", mt: {xs: 6, sm: 1, xl: 1,md: 1, lg: 1}, ml: {xs: -16, sm: 1, xl: 1,md: 1, lg: 1}}} onClick={() => navigate(`/page/settings`)} >Edit profile</Button>
+                    <SettingsIcon  onClick={() => navigate(`/page/settings`)} sx={{m: 1}} />
                 </Typography>
             </Typography>
             <Typography sx={{ml: {xs: 2, sm: 28, xl: 43,md: 43, lg: 43}, mt: {xs: 2, sm: -6, xl: -10, md: -10, lg: -10}}} >
-                <span style={{fontWeight: "bold"}} >9 </span> <span style={{marginRight: 30, cursor: "pointer"}}> posts </span>
-                <span style={{fontWeight: "bold"}} >99 </span><span style={{marginRight: 30, cursor: "pointer"}} > followers </span>
-                <span style={{fontWeight: "bold"}} >99  </span><span style={{marginRight: 30, cursor: "pointer"}} > followers </span>
+                <span style={{fontWeight: "bold"}} >{loading} </span> <span style={{marginRight: 30, cursor: "pointer"}}> posts </span>
+                <span style={{fontWeight: "bold"}} >{currentUser?.followers?.length} </span><span style={{marginRight: 30, cursor: "pointer"}} > followers </span>
+                <span style={{fontWeight: "bold"}} >{currentUser?.following?.length}  </span><span style={{marginRight: 30, cursor: "pointer"}} > following </span>
             </Typography>
             <Typography sx={{ml: {xs: 2, sm: 28, xl: 43,md: 43, lg: 43}, mt: {xs: 2, sm: 3, xl: 3,md: 3, lg: 3}}} >
-                <span style={{fontWeight: "bold"}} >Azimjon Umarov</span>
+                <span style={{fontWeight: "bold"}} >{currentUser?.firstname} {" "} {currentUser?.lastName}</span>
             </Typography>
             <Divider sx={{ mt: {xs: 2, sm: 2, xl: 6,md: 6, lg: 6}, display: "flex"}}>
             </Divider>

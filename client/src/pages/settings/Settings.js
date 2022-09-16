@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -9,7 +9,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import {Button, ListItemIcon} from "@mui/material";
 import {InboxIcon, MailIcon} from "@heroicons/react/solid";
 import ListItemText from "@mui/material/ListItemText";
-import {users} from "../../fakeData"
 import Typography from "@mui/material/Typography";
 import FormControl, { useFormControl } from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -17,10 +16,20 @@ import FormHelperText from '@mui/material/FormHelperText';
 import TextField from '@mui/material/TextField';
 import Footer from "../../component/footer/Footer";
 import {useNavigate} from "react-router-dom";
+import UserContext from "../../context/GlobalData/User";
+import ChangeAvatar from "../../component/modals/ChangeAvatar/ChangeAvatar";
+import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import {storage} from "../../firebase";
+import {v4} from "uuid";
 
 
 function Settings({whatFor}) {
     const navigate = useNavigate();
+    const {user} = useContext(UserContext);
+    const [update, setUpdate] = useState(user)
+    const [password, setPassword] = React.useState({});
+    const [avatar, setAvatar] = useState(user?.avatar);
+
     const settings = (
         <div>
             <List>
@@ -46,10 +55,34 @@ function Settings({whatFor}) {
                 </List>
         </div>
     );
-    const [name, setName] = React.useState('Cat in the Hat');
+    function myFilter(obj, cb) {
+        return Object.fromEntries(Object.entries(obj).
+        filter(([key, val]) => cb(val, key)));
+    }
+
+    async function handleSubmit(e){
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        let body = {};
+        body.firstName = data.get("Name").split(" ")[0];
+        body.lastName =  data.get("Name").split(" ").length > 1 ? data.get("Name").split(" ")[1] : update?.lastName;
+        body.username = data.get("Username");
+        body.website = data.get("Website");
+        body.bio = data.get("Bio");
+        body.email = data.get("Email");
+        body.gender = data.get("Phone number");
+        body.avatar = avatar;
+        body = myFilter(body, item => item !== "");
+        console.log(body);
+    }
+
+
     const handleChange = (event) => {
-        setName(event.target.value);
+        console.log(event.target)
     };
+
+
+
 
     return (
         <Container>
@@ -63,66 +96,53 @@ function Settings({whatFor}) {
                     variant="outlined"
                 >
                     <Typography sx={{ml: {xs: -4, sm: 2, xl: 10,md: 10, lg: 10}}}>
-                        <UserCard user={users[0]} forWhat="settings"/>
-                    <Box component="form" noValidate autoComplete="off" sx={{mt: 5}}>
+                        <UserCard user={update} forWhat="settings" setAvatar={setAvatar} />
+                    <Box component="form" noValidate autoComplete="off"  onSubmit={handleSubmit} sx={{mt: 5}}>
                         <FormControl sx={{ width: '25ch' }}>
                             <TextField
                                 sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
                                 label={whatFor === "changePassword" ? "Current Password" : "Name"}
-                                value={name}
-                                onChange={handleChange}
-                            /><
-                            TextField
+                                id="Name"
+                                name="Name"
+                                />
+                            <TextField
                                 sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
                                 label={whatFor === "changePassword" ? "New Password" : "Username"}
-                                value={name}
-                                onChange={handleChange}
+                                id="Username"
+                                name="Username"
                             />
                             <TextField
                                 sx={{m: 3, width: "200%"}}
-                                id="outlined-name"
                                 label={whatFor === "changePassword" ? "Verify new password" : "Website"}
-                                value={name}
-                                onChange={handleChange}
+                                id="Website"
+                                name="Website"
                             />
                             {whatFor !== "changePassword" ? <>
                                     <TextField
                                         sx={{m: 3, width: "200%"}}
-                                        id="outlined-name"
                                         label="Bio"
-                                        value={name}
-                                        onChange={handleChange}
+                                        id="Bio"
+                                        name="Bio"
                                     />
                                     <TextField
                                         sx={{m: 3, width: "200%"}}
-                                        id="outlined-name"
+                                        id="Email"
                                         label="Email"
-                                        value={name}
-                                        onChange={handleChange}
+                                        name="Email"
                                     />
                                     <TextField
                                         sx={{m: 3, width: "200%"}}
-                                        id="outlined-name"
+                                        id="Phone number"
                                         label="Phone number"
-                                        value={name}
-                                        onChange={handleChange}
-                                    />
-                                    <TextField
-                                        sx={{m: 3, width: "200%"}}
-                                        id="outlined-name"
-                                        label="Gender"
-                                        value={name}
-                                        onChange={handleChange}
+                                        name="Phone number"
                                     />
                                 </> : null}
                             <Button
                             type="submit"
                             sx={{ml: "90%"}}
                             >
-                            Submit
-                        </Button>
+                                Submit
+                            </Button>
                         </FormControl>
                     </Box>
                     </Typography>

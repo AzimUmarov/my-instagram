@@ -149,13 +149,13 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}`); setCurrentNav("s")}}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}`); setCurrentNav("s");  window.location.reload()}}>
                                 <ListItemIcon>
                                     <AccountCircleOutlinedIcon />
                                 </ListItemIcon>
                                 Profile
                             </MenuItem>
-                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}/saved`);  setCurrentNav("s")}}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}/saved`);  setCurrentNav("s"); window.location.reload()}}>
                                 <ListItemIcon>
                                     <BookmarkIcon fontSize="small" />
                                 </ListItemIcon>

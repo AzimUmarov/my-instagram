@@ -7,15 +7,23 @@ const compression = require("compression");
 const {connect} = require("mongoose");
 const app = express();
 
+
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(cors({
+    origin : "http://127.0.0.1:3000",
+    credentials:true
+}));
+app.use(express.urlencoded({
+    extended: true
+}));
 app.use(morgan('dev'));
 app.use(helmet());
-app.use(cors());
 app.use(compression());
 
+
+
 app.get("/", (req, res) => {
-    res.send("Working backend app!\n Created by Azimjon Umarov \n Powered by Qwasar.io");
+    res.send("<h2 style='color: red;' >Working backend app!\n Created by Azimjon Umarov \n Powered by Qwasar.io </h2>");
 });
 
 app.use(function(req, res, next) {

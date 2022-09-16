@@ -47,7 +47,6 @@ class AuthController {
                  })
          }
          catch (err) {
-             console.log(err)
              res.status(400).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});
          }
      }
