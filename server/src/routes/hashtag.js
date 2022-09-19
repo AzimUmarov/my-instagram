@@ -3,7 +3,7 @@ const route = express.Router();
 const Hashtag = require("../controllers/hashtag");
 const authentication = require("../middlewares/Authentification");
 
-route.get("/get-one/:id", authentication, Hashtag.getOne);
+route.get("/get-one/:id", Hashtag.getOne);
 route.post("/create", authentication, Hashtag.create);
 route.patch("/edit/:id", authentication, Hashtag.edit);
 route.delete("/:id", authentication, Hashtag.delete);

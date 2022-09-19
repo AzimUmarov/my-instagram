@@ -120,22 +120,31 @@ export default function Post({post, where}) {
         }
     }
 
+    async function getComments(){
+        try{
+            if(!creator)
+                setLoading(true);
+            if(post) {
+                const resUser = await ServiceAPI.get(GET_USER_WITH_ID + post?.creator);
+                const resComments = await ServiceAPI.get(GET_USER_COMMENTS + post?._id);
+                setCreator(resUser?.data);
+                setComments(resComments?.data?.data);
+                setLoading(false);
+            }
+            setLoading(false);
+        }catch(err){
+            setError(err);
+        }finally{
+            setInputComment("")
+            setLoading(false);
+        }
+    }
 
-    useMemo(async () => {
-                try{
-                        setLoading(true);
-                    const response2 = await  ServiceAPI.get(GET_USER_WITH_ID + post?.creator);
-                    const response = await  ServiceAPI.get(GET_USER_COMMENTS + post?._id);
-                    setCreator(response2?.data);
-                    setComments(response?.data?.data);
-                    setLoading(false);
-                }catch(err){
-                    setError(err);
-                }finally{
-                    setInputComment("")
-                    setLoading(false);
-                }
-    }, [post?._id]);
+    useEffect(() => {
+        if(post){
+            getComments();
+        }
+    }, [post?._id])
 
     const onEmojiClick = (event, emojiObject) => {
         setInputComment(prevInput => prevInput + emojiObject.emoji);

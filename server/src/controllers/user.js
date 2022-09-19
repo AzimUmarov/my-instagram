@@ -51,6 +51,8 @@ class UserController {
 
     async edit (req, res) {
         try {
+            console.log(req.user)
+            console.log(req.body)
             const id = req.user._id;
             const { firstName, lastName, avatar, username, email, gender, birthDate, bio} = req.body;
 

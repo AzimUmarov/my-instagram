@@ -6,7 +6,7 @@ const LOGIN_URL = "/auth/signin";
 function SignIn(props) {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
-    const { setUser} = useContext(UserContext);
+    const { setToken, setUser} = useContext(UserContext);
 
     async function signIn(e) {
         e.preventDefault();
@@ -19,6 +19,7 @@ function SignIn(props) {
             const token = response?.data?.data?.token;
             setLoading(false);
             ServiceAPI.defaults.headers.common['Authorization'] = `Barer ${token}`;
+            setToken(token);
             setUser(response?.data?.data?.user);
         } catch (err) {
             setLoading(false);

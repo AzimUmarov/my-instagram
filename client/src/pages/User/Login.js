@@ -34,8 +34,9 @@ export default function Login() {
             setLoading(false);
             ServiceAPI.defaults.headers.common['Authorization'] = `Barer ${token}`;
             await localStorage.setItem('token', JSON.stringify(token));
+            setToken(token);
             setUser(response?.data?.data?.user);
-            navigate("/");
+            window.location.href = "/";
         } catch (err) {
             setLoading(false);
             if (!err?.response)

@@ -58,6 +58,10 @@ function ShowPost(props) {
 
     async function handleSubmit(e){
         e.preventDefault();
+        if(!user){
+            setError({message: "please sign in"});
+            return;
+        }
         const body = inputComment;
         try{
             setLoading(null);
@@ -121,8 +125,11 @@ function ShowPost(props) {
 
     async function handleLike(e, comment){
         e.preventDefault();
+        if(!user){
+            setError({message: "please sign in"});
+            return;
+        }
         try{
-
             // setLoading("like")
             let index;
             if(comment === "save")
@@ -175,18 +182,6 @@ function ShowPost(props) {
         setInputComment(prevInput => prevInput + emojiObject.emoji);
         setShowPicker(false);
     };
-    post?.media?.type === "image" ? <img
-        src={post?.media?.value}
-        alt="Image not found"
-    /> : <video
-        autoPlay
-        controls
-    >
-        <source
-            src={post?.media?.value}
-            type="video/mp4"
-        />
-    </video>
     return (
         <Container>
             <Card sx={{ display: {xs: "block", sm: "block", xl: "flex",md: "flex", lg: "flex"}, mt: 3 }} variant="outlined" >
@@ -216,6 +211,7 @@ function ShowPost(props) {
                     sx={{ flexGrow: 1, width: {xs:  "100%", sm:  "100%", xl:  "35%",md:  "35%", lg:  "35%"} }}
                     variant="outlined"
                 >
+                    <h4 className={error ? "text-warning bg-secondary p-2 mb-0 mt-2 w-100 text-center border position-sticky" : "d-none"} aria-live="assertive">{error?.message}</h4>
                     <CardHeader
                         avatar={
                             loading?
@@ -268,7 +264,7 @@ function ShowPost(props) {
                     <Divider width="140%" sx={{ml: -10, mt: 2}}/>
                     <CardActions disableSpacing>
                         <IconButton aria-label="add to favorites" onClick={handleLike} >
-                            {post?.likes?.includes(user._id) ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon/>}
+                            {post?.likes?.includes(user?._id) ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon/>}
                         </IconButton>
                         <IconButton aria-label="share">
                             <ShareIcon onClick={() => window.location.href = `mailto:name1@rapidtables.com?cc=name2@rapidtables.com&bcc=name3@rapidtables.com` +
@@ -277,7 +273,7 @@ function ShowPost(props) {
                         </IconButton>
                         <ExpandMore>
                             <IconButton aria-label="share" onClick={(e) => handleLike(e, "save")} >
-                                {post?.saves?.includes(user._id) ? <BookmarkOutlinedIcon  /> :  <BookmarkBorderOutlinedIcon />}
+                                {post?.saves?.includes(user?._id) ? <BookmarkOutlinedIcon  /> :  <BookmarkBorderOutlinedIcon />}
                             </IconButton>
                         </ExpandMore>
                     </CardActions>

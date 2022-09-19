@@ -36,6 +36,8 @@ function ShowUser({type}) {
             console.log(response?.data)
             setLoading(response2?.data?.length);
         }catch(err){
+            alert("Not have any user with this username");
+            navigate("/");
         }finally{
         }
     }
@@ -58,8 +60,8 @@ function ShowUser({type}) {
                 </Avatar>
                 <Typography component="div" sx={{display: "flex", mt: {md: 6, xs: 2, sm: 4, xl: 6, lg: 6}, width: "100%"}}>
                     <span style={{fontWeight: "bold", fontSize: "24px"}} >{id}</span>
-                    <Button variant="outlined" sx={{height: 24, m: 1, color: "inherit", mt: {xs: 6, sm: 1, xl: 1,md: 1, lg: 1}, ml: {xs: -16, sm: 1, xl: 1,md: 1, lg: 1}}} onClick={() => navigate(`/page/settings`)} >Edit profile</Button>
-                    <SettingsIcon  onClick={() => navigate(`/page/settings`)} sx={{m: 1}} />
+                    { user ? <Button variant="outlined" sx={{height: 24, m: 1, color: "inherit", mt: {xs: 6, sm: 1, xl: 1,md: 1, lg: 1}, ml: {xs: -16, sm: 1, xl: 1,md: 1, lg: 1}}} onClick={() => navigate(`/page/settings`)} >Edit profile</Button>  : null}
+                    { user ? <SettingsIcon  onClick={() => navigate(`/page/settings`)} sx={{m: 1}} /> : null}
                 </Typography>
             </Typography>
             <Typography sx={{ml: {xs: 2, sm: 28, xl: 43,md: 43, lg: 43}, mt: {xs: 2, sm: -6, xl: -10, md: -10, lg: -10}}} >

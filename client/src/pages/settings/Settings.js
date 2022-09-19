@@ -21,14 +21,15 @@ import ChangeAvatar from "../../component/modals/ChangeAvatar/ChangeAvatar";
 import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {storage} from "../../firebase";
 import {v4} from "uuid";
-
+import ServiceAPI from "../../API/ServiceAPI";
+const UPDATE_USER = "/user/update"
+const UPDATE_PASSWORD = "/auth/update-password"
 
 function Settings({whatFor}) {
     const navigate = useNavigate();
-    const {user} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const [update, setUpdate] = useState(user)
-    const [password, setPassword] = React.useState({});
-    const [avatar, setAvatar] = useState(user?.avatar);
+    const [error, setError] = React.useState(false);
 
     const settings = (
         <div>
@@ -64,22 +65,43 @@ function Settings({whatFor}) {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         let body = {};
-        body.firstName = data.get("Name").split(" ")[0];
-        body.lastName =  data.get("Name").split(" ").length > 1 ? data.get("Name").split(" ")[1] : update?.lastName;
-        body.username = data.get("Username");
-        body.website = data.get("Website");
-        body.bio = data.get("Bio");
-        body.email = data.get("Email");
-        body.gender = data.get("Phone number");
-        body.avatar = avatar;
-        body = myFilter(body, item => item !== "");
-        console.log(body);
+        let url;
+        if(whatFor === "changePassword"){
+            console.log(data.get("Username")+ "--" + data.get("Website"));
+
+            if(data.get("Username") !== data.get("Website")){
+                setError({message: "New Password don't match"});
+                return 0;
+            }
+            url =  UPDATE_PASSWORD;
+            body.currentPassword = data.get("Name");
+            body.password = data.get("Username");
+        }
+        else {
+            url = UPDATE_USER;
+            body.firstName = data.get("Name").split(" ")[0];
+            body.lastName = data.get("Name").split(" ").length > 1 ? data.get("Name").split(" ")[1] : update?.lastName;
+            body.username = data.get("Username");
+            body.website = data.get("Website");
+            body.bio = data.get("Bio");
+            body.email = data.get("Email");
+            body.gender = data.get("Phone number");
+            body = myFilter(body, item => item !== "");
+        }
+        try{
+            console.log(url, body);
+            const response = await  ServiceAPI.patch(url, body);
+            console.log(response);
+            setUpdate(response?.data);
+            setUser(response?.data);
+            setError(response?.data);
+        }catch(err){
+            console.log(err);
+            setError(err.response?.data);
+        }finally{
+        }
     }
 
-
-    const handleChange = (event) => {
-        console.log(event.target)
-    };
 
 
 
@@ -96,24 +118,28 @@ function Settings({whatFor}) {
                     variant="outlined"
                 >
                     <Typography sx={{ml: {xs: -4, sm: 2, xl: 10,md: 10, lg: 10}}}>
-                        <UserCard user={update} forWhat="settings" setAvatar={setAvatar} />
+                        <UserCard user={update} forWhat="settings" userAvatar={user?.avatar} />
                     <Box component="form" noValidate autoComplete="off"  onSubmit={handleSubmit} sx={{mt: 5}}>
-                        <FormControl sx={{ width: '25ch' }}>
+                        <h4 className={error ? "text-warning bg-secondary p-2 mb-0 mt-2 w-100 text-center border position-sticky" : "d-none"} aria-live="assertive">{error?.message}</h4>
+                        <FormControl sx={{ width: '25ch' }} onChange={() =>  setError(null)}>
                             <TextField
                                 sx={{m: 3, width: "200%"}}
                                 label={whatFor === "changePassword" ? "Current Password" : "Name"}
+                                type={whatFor === "changePassword" ? "password" : "text"}
                                 id="Name"
                                 name="Name"
                                 />
                             <TextField
                                 sx={{m: 3, width: "200%"}}
                                 label={whatFor === "changePassword" ? "New Password" : "Username"}
+                                type={whatFor === "changePassword" ? "password" : "text"}
                                 id="Username"
                                 name="Username"
                             />
                             <TextField
                                 sx={{m: 3, width: "200%"}}
                                 label={whatFor === "changePassword" ? "Verify new password" : "Website"}
+                                type={whatFor === "changePassword" ? "password" : "text"}
                                 id="Website"
                                 name="Website"
                             />

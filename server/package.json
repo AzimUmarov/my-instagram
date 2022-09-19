@@ -23,7 +23,9 @@
     "mongodb": "^4.9.0",
     "mongoose": "^6.5.2",
     "morgan": "^1.10.0",
-    "redis": "^4.3.0"
+    "redis": "^4.3.0",
+    "serverless": "^3.19.0",
+    "serverless-http": "^2.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

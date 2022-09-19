@@ -85,10 +85,17 @@ class AuthController {
          try {
             const id = req.user._id;
             const user = await User.findOne({_id: ObjectId(id)});
-            const {password} = req.body;
-            user.password = await bcrypt.hash(password, 10);
-            await user.save();
-            res.status(200).json({message: "user password has been updated successfully", data: {user}});
+            const {currentPassword, password} = req.body;
+            const auth = await bcrypt.compare(currentPassword,user.password);
+            console.log(auth);
+
+            if(auth === false)
+                res.status(401).json({message: "invalid password"});
+            else{
+                user.password = await bcrypt.hash(password, 10);
+                await user.save();
+                res.status(200).json({message: "user password has been updated successfully", data: {user}});
+            }
          }
          catch (err) {
              res.status(500).json({message: `${err.message.split(":")[2] || err.message}, please try again later`});

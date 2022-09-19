@@ -9,9 +9,11 @@ import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {storage} from "../../firebase";
 import {v4} from "uuid";
 const FOLLOW_WITH_ID = "/user/follow/"
+const UPDATE_USER = "/user/update"
 
 
-function UserCard({forWhat, user, setAvatar}) {
+function UserCard({forWhat, user, userAvatar}) {
+    const [avatar, setAvatar] = useState(userAvatar);
     const [loading, setLoading] = useState(false);
     const [following, setFollowing] = useState(false)
     const context = useContext(UserContext);
@@ -25,10 +27,17 @@ function UserCard({forWhat, user, setAvatar}) {
         const mediaRef = ref(storage, `avatar/${media.name + v4() }` );
         uploadBytes(mediaRef, media).then((res) => {
             console.log(res.ref);
-            getDownloadURL(res.ref).then((value) => {
+            getDownloadURL(res.ref).then(async (value) => {
                 console.log("--------------------------------")
                 console.log(value);
                 setAvatar(value);
+                try{
+                    const response = await ServiceAPI.patch(UPDATE_USER, {avatar: value})
+                    context.setUser(response?.data)
+                    console.log(response)
+                }catch(err){
+                }finally{
+                }
                 setLoading(false);
             })
         })
@@ -58,7 +67,7 @@ function UserCard({forWhat, user, setAvatar}) {
             sx={{ width: {xl: 460, lg: 460, md: 400}}}
             component="div"
             avatar={
-                <Avatar sx={forWhat === "currentUserOnHomepage" || forWhat === "settings"  ? styles.forCurrentUserOnHomePage.avatar : null} alt="Remy Sharp" src={user?.avatar} aria-label="recipe">
+                <Avatar sx={forWhat === "currentUserOnHomepage" || forWhat === "settings"  ? styles.forCurrentUserOnHomePage.avatar : null} alt="R" /* add skeleton*/ src={avatar} aria-label="recipe">
                 </Avatar>
             }
             title={forWhat === "settings" ? <h6 style={{fontWeight: "bold"}}>{user?.username}</h6> : user?.username}

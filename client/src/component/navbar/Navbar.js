@@ -116,9 +116,14 @@ const Navbar = () => {
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
-                        <StyledInputBase
+                        <StyledInputBase onKeyPress={(e) => {
+                            if(e.key === "Enter") {
+                                navigate(`/${e.target.value}`)
+                            }
+                        }}
                             placeholder="Search"
-                            inputProps={{ 'aria-label': 'search' }} />
+                            inputProps={{ 'aria-label': 'search' }}>
+                        </StyledInputBase>
                     </Search>
                     { user ? <>
                     { currentNav === "home" ? <HomeRoundedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, ml: {xs: 3.4}, fontSize: 30}} onClick={() => navigate(`/`)} /> : <HomeOutlinedIcon sx={{m:{md: 1, xs: 0},  ml: {xs: 3.4}, mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => {setCurrentNav("home"); navigate(`/`); }}/> }
