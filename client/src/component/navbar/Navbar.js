@@ -135,7 +135,7 @@ const Navbar = () => {
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0, m:{md: 1, xs: 0},ml: {xs: 0.6}, fontSize: {md: 30, xs: 25}}}>
-                                <Avatar sx={{width: {md: 35, xs: 30}, height: {md: 35, xs: 30}}} alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                <Avatar sx={{width: {md: 35, xs: 30}, height: {md: 35, xs: 30}}} alt={user?.username} src={user?.avatar} />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -154,13 +154,13 @@ const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}`); setCurrentNav("s");  window.location.reload()}}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user?.username}`); setCurrentNav("s");  window.location.reload()}}>
                                 <ListItemIcon>
                                     <AccountCircleOutlinedIcon />
                                 </ListItemIcon>
                                 Profile
                             </MenuItem>
-                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user.username}/saved`);  setCurrentNav("s"); window.location.reload()}}>
+                            <MenuItem onClick={(e) => {handleCloseUserMenu(e); navigate(`/${user?.username}/saved`);  setCurrentNav("s"); window.location.reload()}}>
                                 <ListItemIcon>
                                     <BookmarkIcon fontSize="small" />
                                 </ListItemIcon>

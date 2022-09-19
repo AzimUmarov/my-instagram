@@ -9,7 +9,7 @@ export function getLocalData(name) {
 const token = getLocalData("token");
 
 export default axios.create({
-    baseURL: "http://localhost:4444/api",
+    baseURL: "https://my-instagram-qwasar.herokuapp.com/api",
     headers: {
         'Accept': 'application/vnd.GitHub.v3+json',
         'Content-Type': 'application/json',

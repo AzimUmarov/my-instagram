@@ -28,8 +28,6 @@ function UserCard({forWhat, user, userAvatar}) {
         uploadBytes(mediaRef, media).then((res) => {
             console.log(res.ref);
             getDownloadURL(res.ref).then(async (value) => {
-                console.log("--------------------------------")
-                console.log(value);
                 setAvatar(value);
                 try{
                     const response = await ServiceAPI.patch(UPDATE_USER, {avatar: value})
@@ -67,7 +65,7 @@ function UserCard({forWhat, user, userAvatar}) {
             sx={{ width: {xl: 460, lg: 460, md: 400}}}
             component="div"
             avatar={
-                <Avatar sx={forWhat === "currentUserOnHomepage" || forWhat === "settings"  ? styles.forCurrentUserOnHomePage.avatar : null} alt="R" /* add skeleton*/ src={avatar} aria-label="recipe">
+                <Avatar sx={forWhat === "currentUserOnHomepage" || forWhat === "settings"  ? styles.forCurrentUserOnHomePage.avatar : null} alt="R" /* add skeleton*/ src={forWhat === "settings" ? avatar : user?.avatar} aria-label="recipe">
                 </Avatar>
             }
             title={forWhat === "settings" ? <h6 style={{fontWeight: "bold"}}>{user?.username}</h6> : user?.username}

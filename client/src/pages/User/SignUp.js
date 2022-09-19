@@ -37,6 +37,7 @@ export default function SignUp() {
             setToken(token);
             setUser(response?.data?.data?.user);
             navigate("/");
+            window.location.href = "/";
         } catch (err) {
             setLoading(false);
             if (!err?.response)

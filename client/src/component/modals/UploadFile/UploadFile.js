@@ -103,12 +103,12 @@ function UploadFile({currentNav, setCurrentNav}) {
                             <>
                                 {newPost?.media?.type === "image" ? <Typography
                                         component="img"
-                                        sx={{height: 400}}
+                                        sx={{height: 400, width: 600, aspectRatio: "16/9", objectFit: "cover"}}
                                         src={newPost?.media?.value}
                                     />
                                     : <video
                                         autoPlay
-                                        style={{height: 400}}
+                                        style={{height: 400, width: 600, position: "fixed", aspectRatio: "inherit"}}
                                     >
                                         <source
                                             src={newPost?.media?.value}
@@ -166,7 +166,7 @@ function UploadFile({currentNav, setCurrentNav}) {
                             <Typography
                                 component="span"
                                 sx={{fontSize:20}}
-                                component="p">Drag photos and videos here</Typography>
+                                component="p"> Drag photos and videos here</Typography>
                         </Grid>
                         <Grid  item xs={3}>
                             <Stack direction="row" alignItems="center" spacing={2}>
