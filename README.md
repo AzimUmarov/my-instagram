@@ -13,9 +13,9 @@ Users can perform actions like instagram
 dark theme preferred for better user experience :)
 
 <img src="https://i.ibb.co/SB9gb2j/Screen-Shot-2022-09-20-at-21-40-51.png"/>
-<div style="display: flex;">
+<div style="display: flex;" >
 	<img src="https://i.ibb.co/Tv8rSMh/Screen-Shot-2022-09-20-at-21-47-37.png" width="50%"/>
-	<img src="https://i.ibb.co/wddmwDg/Screen-Shot-2022-09-20-at-21-48-06.png" width="50%"/>
+	<img style="display: flex; margin: 3;" align="right"  src="https://i.ibb.co/wddmwDg/Screen-Shot-2022-09-20-at-21-48-06.png" width="50%"/>
 </div>
 
 ## Installation
