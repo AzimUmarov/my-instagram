@@ -1,11 +1,7 @@
 import React, {useState} from 'react';
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage"
-import {storage} from "../../../firebase";
-import {v4} from "uuid";
 import {Grid, Modal} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { style } from "../UploadFile/UploadFile"
 

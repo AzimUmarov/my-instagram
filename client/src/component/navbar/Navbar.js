@@ -27,13 +27,13 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import {useContext, useEffect} from "react";
+import {useContext} from "react";
 import MyThemeContext from "../../context/ColorModeContext";
 import UserContext from "../../context/GlobalData/User"
 import {useNavigate} from "react-router-dom";
 import UploadFile from "../modals/UploadFile/UploadFile";
 import Button from "@mui/material/Button";
-import { BASE_URL } from "../post/Post"
+import { BASE_URL } from "../post/Post";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',

@@ -7,20 +7,13 @@ import ListItem from "@mui/material/ListItem";
 import UserCard from "../../component/user/UserCard";
 import ListItemButton from "@mui/material/ListItemButton";
 import {Button, ListItemIcon} from "@mui/material";
-import {InboxIcon, MailIcon} from "@heroicons/react/solid";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
-import FormControl, { useFormControl } from '@mui/material/FormControl';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import FormHelperText from '@mui/material/FormHelperText';
+import FormControl  from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Footer from "../../component/footer/Footer";
 import {useNavigate} from "react-router-dom";
 import UserContext from "../../context/GlobalData/User";
-import ChangeAvatar from "../../component/modals/ChangeAvatar/ChangeAvatar";
-import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
-import {storage} from "../../firebase";
-import {v4} from "uuid";
 import ServiceAPI from "../../API/ServiceAPI";
 const UPDATE_USER = "/user/update"
 const UPDATE_PASSWORD = "/auth/update-password"

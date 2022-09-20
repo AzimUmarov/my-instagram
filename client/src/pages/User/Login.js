@@ -6,7 +6,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import FilterHdrIcon from '@mui/icons-material/FilterHdr';
 import {Link as LinkRoute, useNavigate} from "react-router-dom";
 import ServiceAPI from "../../API/ServiceAPI";
 import {useContext, useState} from "react";
@@ -19,7 +18,6 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const { setUser, setToken} = useContext(UserContext);
-    const navigate = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();

@@ -2,16 +2,38 @@
 ***
 This is the client app of my Instagram project
 
+<a href="https://qwasar-instagram.netlify.app"> Live demo </a>
+
 ## Task
-Create Instagram clone with some features
+Create Instagram messenger clone with some features
 
 ## Description
+I'm creating this messenger clone with ReactJs, MUI, ExpressJs, MongoDb
+Users can perform actions like instagram
+dark theme preferred for better user experience :)
 
+<img src="https://i.ibb.co/SB9gb2j/Screen-Shot-2022-09-20-at-21-40-51.png"/>
+<div style="display: flex;">
+	<img src="https://i.ibb.co/Tv8rSMh/Screen-Shot-2022-09-20-at-21-47-37.png" width="50%"/>
+	<img src="https://i.ibb.co/wddmwDg/Screen-Shot-2022-09-20-at-21-48-06.png" width="50%"/>
+</div>
 
 ## Installation
+````
+	cd client
+	npm i
+	npm start
+````
 
+````
+	cd server
+	npm i
+	npm run dev
+````
 
 ## Usage
+You can create post and follow people with signing up.
+- like, comment, bookmark, share posts and etc.
 
 ## Features
 - [ ] Login, Signup
@@ -50,7 +72,7 @@ Create Instagram clone with some features
 
 - [ ] Know what are some of the most popular hashtags.
 
-- [ ] Mutual likes and comments as in Facebook 
+- [ ] Mutual likes and comments as in Facebook
 
 - [ ] Shows images in Theatre mode.
 

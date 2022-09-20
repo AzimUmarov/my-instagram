@@ -13,7 +13,6 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import ServiceAPI from "../../API/ServiceAPI";
 import UserContext from "../../context/GlobalData/User";
-//, display: {xs: "none", md: "block", sm: "block", xl: "block", lg: "block"}
 const  GET_USER_WITH_USERNAME = "/user/get-one-by-username/"
 
 

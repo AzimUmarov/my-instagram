@@ -1,13 +1,11 @@
 import * as React from 'react';
 import Box from "@mui/material/Box";
-import {Button, List, ListItem} from "@mui/material";
+import { List } from "@mui/material";
 import UserCard from "./UserCard";
 import Footer from "../footer/Footer";
 import Typography from "@mui/material/Typography";
-import {users} from "../../fakeData";
 import {useContext, useEffect, useState} from "react";
 import ServiceAPI from "../../API/ServiceAPI";
-import userCard from "./UserCard";
 import UserContext from "../../context/GlobalData/User";
 const SUGGESTIONS = "/user/suggestions"
 

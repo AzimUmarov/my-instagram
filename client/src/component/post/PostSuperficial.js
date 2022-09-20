@@ -1,8 +1,6 @@
 import React from 'react';
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import {CardActionArea} from "@mui/material";
-import CardMedia from "@mui/material/CardMedia";
 import CardCover from "@mui/joy/CardCover";
 import {useNavigate} from "react-router-dom";
 

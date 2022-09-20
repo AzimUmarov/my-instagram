@@ -1,6 +1,4 @@
 import axios from 'axios';
-import {useContext} from "react";
-import UserContext from "../context/GlobalData/User";
 
 export function getLocalData(name) {
     const data = localStorage.getItem(name);

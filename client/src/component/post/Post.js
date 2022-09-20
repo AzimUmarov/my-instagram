@@ -11,29 +11,27 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/Share';
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import BookmarkOutlinedIcon from '@mui/icons-material/BookmarkOutlined';
 import {Divider, InputBase} from "@mui/material";
 import Box from "@mui/material/Box";
 import Picker from 'emoji-picker-react';
-import {useContext, useEffect, useMemo, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import MoodIcon from '@mui/icons-material/Mood';
 import ServiceAPI from "../../API/ServiceAPI";
 import moment from "moment";
-import { useEffectX } from "use-effect-x";
 import UserContext from "../../context/GlobalData/User";
 import {useNavigate} from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-const GET_USER_WITH_ID = "/user/get-one/"
-const GET_USER_COMMENTS = "/comment/get-user-comments/"
-const POST_COMMENT_WITH_POST_ID = "/comment/create/"
-const POST_LIKE_WITH_ID = "/post/like/"
-const COMMENT_LIKE_WITH_ID = "/comment/like/"
-const POST_SAVE_WITH_ID = "/post/save/"
-export const BASE_URL = "http://localhost:3000/p/"
+const GET_USER_WITH_ID = "/user/get-one/";
+const GET_USER_COMMENTS = "/comment/get-user-comments/";
+const POST_COMMENT_WITH_POST_ID = "/comment/create/";
+const POST_LIKE_WITH_ID = "/post/like/";
+const COMMENT_LIKE_WITH_ID = "/comment/like/";
+const POST_SAVE_WITH_ID = "/post/save/";
+export const BASE_URL = "http://localhost:3000/p/";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
