@@ -1,6 +1,5 @@
 # Welcome to My Instagram project
 ***
-This is the client app of my Instagram project
 
 <a href="https://qwasar-instagram.netlify.app"> Live demo </a>
 
