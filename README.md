@@ -15,6 +15,7 @@ dark theme preferred for better user experience :)
 <div style="display: flex;" >
 	<img src="https://i.ibb.co/Tv8rSMh/Screen-Shot-2022-09-20-at-21-47-37.png" width="50%" align="left" />
 	<img style="display: flex;" align="right"  src="https://i.ibb.co/wddmwDg/Screen-Shot-2022-09-20-at-21-48-06.png" width="50%"/>
+	<img style="display: flex;" align="right"  src="https://i.ibb.co/nbXmC19/Screen-Shot-2022-09-23-at-23-38-14.png" width="50%"/>
 </div>
 
 ## Installation
