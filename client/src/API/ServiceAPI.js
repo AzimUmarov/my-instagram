@@ -4,6 +4,7 @@ export function getLocalData(name) {
     const data = localStorage.getItem(name);
     return data ? JSON.parse(data) : "";
 }
+
 const token = getLocalData("token");
 
 export default axios.create({

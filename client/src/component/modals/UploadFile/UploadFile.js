@@ -104,12 +104,12 @@ function UploadFile({currentNav, setCurrentNav}) {
                             <>
                                 {newPost?.media?.type === "image" ? <Typography
                                         component="img"
-                                        sx={{height: {xs: 200, sm: 200, xl: 400, lg: 400}, width: {xs: 400, sm: 400, xl: 600, lg: 600}, aspectRatio: "9/9", objectFit: "cover"}}
+                                        sx={{height: {xs: 200, sm: 200, xl: 400, lg: 400}, width: {xs: 200, sm: 200, xl: 400, lg: 400}, aspectRatio: "9/9", objectFit: "cover"}}
                                         src={newPost?.media?.value}
                                     />
                                     : <video
                                         autoPlay
-                                        style={{height: {xs: 200, sm: 200, xl: 400, lg: 400}, width: {xs: 400, sm: 400, xl: 600, lg: 600}, aspectRatio: "9/9"}}
+                                        style={{height: {xs: 200, sm: 200, xl: 400, lg: 400}, width: {xs: 200, sm: 200, xl: 400, lg: 400}, aspectRatio: "9/9"}}
                                     >
                                         <source
                                             src={newPost?.media?.value}
@@ -125,7 +125,7 @@ function UploadFile({currentNav, setCurrentNav}) {
                                     pickerStyle={{backgroundColor: "#FAEBD7" , position: "absolute", zIndex: "12", marginTop: -370 , marginLeft: 0 }}
                                     onEmojiClick={onEmojiClick} />}
                                 <textarea
-                                    style={{backgroundColor: "inherit",color:"inherit", outline: "none", borderRadius: 5, width: 500, height: 100, marginBottom: 6, marginTop: 20}}
+                                    style={{backgroundColor: "inherit",color:"inherit", outline: "none", borderRadius: 5, width: 400, height: 100, marginBottom: 6, marginTop: 20, borderBlockColor: "inherit"}}
                                     value={value}
                                     onChange={handleChange}
                                     tabIndex="5"

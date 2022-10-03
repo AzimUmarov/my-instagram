@@ -79,7 +79,6 @@ const Navbar = () => {
     const [currentNav, setCurrentNav] = React.useState(window.location.href === BASE_URL ? "home" : null);
     const {setMode, mode, theme} = useContext(MyThemeContext);
     const { user, setUser, token, setToken} = useContext(UserContext);
-
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -94,6 +93,7 @@ const Navbar = () => {
                 {currentNav === "upload" ?
                     <UploadFile currentNav={currentNav} setCurrentNav={setCurrentNav} />
                     : null}
+
                 <Toolbar disableGutters>
                     <InstagramIcon sx={{ mr: {md: 1, sm: 1, xl: 1, lg: 1, xs: 1} }} />
                     <Typography
@@ -130,9 +130,19 @@ const Navbar = () => {
                     { currentNav === "chat" ? <ChatIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> :  <ChatOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("chat"); navigate(`/page/chat`); }} /> }
                     { currentNav === "upload" ?  <AddBoxIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <AddBoxOutlinedIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} onClick={(e) => { setCurrentNav("upload");}} /> }
                     { currentNav === "explore" ? <ExploreIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} /> : <ExploreOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => { setCurrentNav("explore"); navigate(`/page/explore`); }} /> }
-                    { currentNav === "like" ? <FavoriteIcon sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => {setCurrentNav("like"); navigate(`/page/like`); }} /> }
-
-                    <Box sx={{ flexGrow: 0 }}>
+                    { currentNav === "like" ? <FavoriteIcon onClick={(e) => {setCurrentNav("w");}} sx={{m:{md: 1, xs: 0},mr: {xs: 0.5}, fontSize: 30}} />:  <FavoriteBorderOutlinedIcon sx={{m:{md: 1, xs: 0}, mr: {xs: 0.5},fontSize: 30}} onClick={(e) => {setCurrentNav("like");}} /> }
+                        {currentNav === "like" ?
+                            <>
+                                <Typography sx={{bgcolor: theme.palette.mode === 'dark' ? "#282222" : "#ffd" , position: "absolute", zIndex: "12", width: 400, height: 100, borderRadius: 2, mt: "15%", ml: "70%"}}>
+                                    <ul style={{marginTop: 15}} >
+                                        <li style={{margin: 5, color: "#756de8"}}>
+                                            Welcome to My instagram thanks for registration
+                                        </li>
+                                    </ul>
+                                </Typography>
+                            </>
+                            : null}
+                        <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0, m:{md: 1, xs: 0},ml: {xs: 0.6}, fontSize: {md: 30, xs: 25}}}>
                                 <Avatar sx={{width: {md: 35, xs: 30}, height: {md: 35, xs: 30}}} alt={user?.username} src={user?.avatar} />

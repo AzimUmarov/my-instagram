@@ -69,7 +69,7 @@ function ShowUser({type}) {
                 <span style={{fontWeight: "bold"}} >{currentUser?.following?.length}  </span><span style={{marginRight: 30, cursor: "pointer"}} > following </span>
             </Typography>
             <Typography sx={{ml: {xs: 2, sm: 28, xl: 43,md: 43, lg: 43}, mt: {xs: 2, sm: 3, xl: 3,md: 3, lg: 3}}} >
-                <span style={{fontWeight: "bold"}} >{currentUser?.firstname} {" "} {currentUser?.lastName}</span>
+                <span style={{fontWeight: "bold"}} >{`${currentUser?.firstName} ${currentUser?.lastName}`}</span>
             </Typography>
             <Divider sx={{ mt: {xs: 2, sm: 2, xl: 6,md: 6, lg: 6}, display: "flex"}}>
             </Divider>
