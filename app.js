@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin : "http://127.0.0.1:3000",
+    origin : "https://qwasar-instagram.netlify.app",
     credentials:true
 }));
 app.use(express.urlencoded({
