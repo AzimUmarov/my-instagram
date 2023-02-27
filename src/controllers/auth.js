@@ -18,7 +18,7 @@ class AuthController {
             console.log(newUser)
             await newUser.save();
 
-            const token = await jwt.sign(newUser.toJSON(), process.env.ACCESS_TOKEN);
+            const token = await jwt.sign(newUser.toJSON(), "4444");
 
             res.status(200).json({message: "new user saved successfully", data: {user: newUser, token}});
 
@@ -34,7 +34,7 @@ class AuthController {
             if (!user) {
                 throw new Error("User not found");
             }
-            const token = await jwt.sign(user.toJSON(), process.env.ACCESS_TOKEN);
+            const token = await jwt.sign(user.toJSON(), "4444");
 
              bcrypt.compare(password,user.password)
                  .then (r => {

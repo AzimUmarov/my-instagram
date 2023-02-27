@@ -11,7 +11,7 @@ async function authentication(req, res, next) {
 
     const blockedToken = [];// await TokenBlockList.find({token});
 
-    jwt.verify(token, process.env.ACCESS_TOKEN + "", (err, user) => {
+    jwt.verify(token, "4444" + "", (err, user) => {
       if (err || blockedToken.length)
         return res.status(401).json({message: "non authorized, re-signIn required", error: err});
       req.user = user;

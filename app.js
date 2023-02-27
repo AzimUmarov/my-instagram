@@ -39,13 +39,13 @@ app.use("/api/chat", require("./src/routes/chat"));
 app.use("/api/message", require("./src/routes/message"));
 app.use("/api/hashtag", require("./src/routes/hashtag"));
 
-connect(process.env.MONGO_URL, {
+connect("mongodb+srv://my-basecamp:WORI7eC1hn4i2lI8@cluster0.vpypr.mongodb.net/my-instagram?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }, err => {
     if(err)
         return console.log("   !!! Error occurred !!!\n" + err["message"]);
-    app.listen(process.env.PORT, () => {
-        console.log(`   *** Listening on port ${process.env.PORT} ***\n     --- Mongodb connected ----`);
+    app.listen(process.env.PORT || 5000, () => {
+        console.log(`   *** Listening on port ${process.env.PORT || 5000} ***\n     --- Mongodb connected ----`);
     });
 });
