@@ -4,8 +4,8 @@
   "description": "Qwasar.io Fullsatck Season 3 Frontend project",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js",
+    "dev": "npm i && nodemon app.js",
+    "start": "npm i && node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
